@@ -4,22 +4,19 @@ import { ThemeProvider, } from '@mui/material';
 import theme from './config/theme';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import ProtectedRoutes from './router/ProtectedRoutes';
 
-
+//Halaman
 import { FAQ } from './Page/PageLain/FAQ';
 import { ErrorPage } from './Page/PageLain/ErrorPage';
-import ProtectedRoutes from './router/ProtectedRoutes';
 import { LoginPage } from './Page/Login/LoginPage';
 import KatalogData from './Page/KatalogData/KatalogData';
-
 import KatalogAplikasi from './Page/KatalogApp/KatalogAplikasi';
 import { KatalogTIK } from './Page/KatalogTIK/KatalogTIK';
 import { Input } from './Page/Input/Input';
 import { RegisterForm } from './Page/Register/RegisterForm';
 import Analytics from './Page/Dashboard/Analytics';
-
-
-
+import { EditUser } from './Page/Edit/EditUser';
 
 
 export const UserContext = createContext();
@@ -29,12 +26,12 @@ function App() {
 
   useEffect(() => {
     // Cek apakah ada data status login dalam sessionStorage
+    const token = sessionStorage.getItem('token');
     const storedUser = sessionStorage.getItem('user');
 
-    if (storedUser) {
-      // Jika ada, ambil dan gunakan data status login
+    if (token && storedUser) {
       const userData = JSON.parse(storedUser);
-      setUser(userData);
+      setUser({ loggedIn: true, userData });
     }
   }, []);
 
@@ -54,7 +51,8 @@ function App() {
                     <Route path='/faq' element={<FAQ />} />
                     <Route path='/katalog-data' element={<KatalogData />} />
                     <Route path='/katalog-tik' element={<KatalogTIK />} />
-                    <Route path='/input' element={<Input />} />
+                    <Route path='/admin/edit' element={<EditUser />} />
+                    <Route path='/admin/input' element={<Input />} />
                     <Route path='/*' element={<ErrorPage />} />
                   </Route>
               </Routes>

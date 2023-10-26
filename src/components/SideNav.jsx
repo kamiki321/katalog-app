@@ -4,7 +4,7 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
 import SourceOutlinedIcon from '@mui/icons-material/SourceOutlined'; import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined'; import StyleIcon from '@mui/icons-material/Style';
 import { Link, useNavigate } from "react-router-dom";
-import { AppRegistrationOutlined, CategoryOutlined, ComputerOutlined, DatasetOutlined, HardwareOutlined, Input, InputOutlined, PhoneAndroidTwoTone, QuestionMarkOutlined, SearchOutlined } from "@mui/icons-material";
+import { AppRegistrationOutlined, CategoryOutlined, ComputerOutlined, DatasetOutlined, HardwareOutlined, Input, InputOutlined, Person, PhoneAndroidTwoTone, QuestionMarkOutlined, SearchOutlined } from "@mui/icons-material";
 
 function SideNav() {
     const { collapsed } = useProSidebar();
@@ -34,7 +34,8 @@ function SideNav() {
             <MenuItem active={window.location.pathname === "/katalog-aplikasi"} component={<Link to="/katalog-aplikasi" />} icon={<PhoneAndroidTwoTone color="secondary"/>}> <Typography color="secondary" variant="body2">Katalog Aplikasi </Typography></MenuItem>
             <MenuItem active={window.location.pathname === "/katalog-data"} component={<Link to="/katalog-data" />} icon={<DatasetOutlined color="secondary" />}> <Typography color="secondary" variant="body2">Katalog Data</Typography></MenuItem>
             <MenuItem active={window.location.pathname === "/katalog-tik"} component={<Link to="/katalog-tik" />} icon={<ComputerOutlined color="secondary" />}> <Typography color="secondary" variant="body2">Katalog TIK</Typography></MenuItem>
-            <MenuItem active={window.location.pathname === "/input"} component={<Link to="/input" />} icon={<Input color="secondary" />}> <Typography color="secondary" variant="body2">Input</Typography></MenuItem>
+            <MenuItem active={window.location.pathname === "/admin/edit"} component={<Link to="/admin/edit" />} icon={<Person color="secondary" />}> <Typography color="secondary" variant="body2">Edit User</Typography></MenuItem>
+            <MenuItem active={window.location.pathname === "/admin/input"} component={<Link to="/admin/input" />} icon={<Input color="secondary" />}> <Typography color="secondary" variant="body2">Input</Typography></MenuItem>
             <MenuItem active={window.location.pathname === "/faq"} component={<Link to="/faq" />} icon={<QuestionMarkOutlined color="secondary" />}> <Typography color="secondary" variant="body2">FAQ </Typography></MenuItem >
         </Menu >
     </Sidebar >;

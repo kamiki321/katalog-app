@@ -5,9 +5,9 @@ import Box from '@mui/material/Box';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App';
 import LoginHeader from '../../components/LoginHeader';
-import axios from 'axios';
+// import axios from 'axios';
 
-export const LoginPage = () => {
+export const LoginAdmin = () => {
   const theme = useTheme;
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -178,7 +178,7 @@ export const LoginPage = () => {
       
       <div>
       <Typography  fontFamily="sans-serif" variant="h4" align="center"  sx={styles.spacer}>
-      Selamat datang pada Katalog Data Aplikasi 
+      Selamat datang pada Halaman Login Admin
       </Typography>
       <Container maxWidth="xs">
       <Paper elevation={3} style={{ padding: '50px' }}>
@@ -225,17 +225,6 @@ export const LoginPage = () => {
               >
                 Masuk Sekarang!
               </Button>
-            </Grid>
-            <Grid item xs={12}>
-            <Typography 
-            variant="h6" 
-            align="center" 
-            gutterBottom >
-              Belum punya akun?
-              <Button  href="/register">
-                 buat sekarang!
-              </Button>
-            </Typography>
             </Grid>
           </Grid>
         </form>

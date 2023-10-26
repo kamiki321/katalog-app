@@ -3,6 +3,7 @@ import { brown, green, grey, indigo } from '@mui/material/colors';
 
 let theme = createTheme({
     palette: {
+        type: 'light',
         primary: {
             main: indigo[500],
             normal: indigo['A700']

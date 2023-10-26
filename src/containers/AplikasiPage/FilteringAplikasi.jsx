@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Select, Divider, MenuItem, TextField, Typography, CircularProgress, InputAdornment, IconButton } from '@mui/material';
+import { Grid, Select, Divider, MenuItem, TextField, Typography, CircularProgress, InputAdornment, IconButton, Button } from '@mui/material';
 import AplikasiCard from '../card/AplikasiCard';
 import SearchIcon from '@mui/icons-material/Search'
 
@@ -8,27 +8,36 @@ const FilteringAplikasi = () => {
   const [penggunaAplikasiFilter, setPenggunaAplikasiFilter] = useState('all');
   const [pemilikAplikasiFilter, setPemilikAplikasiFilter] = useState('all');
   const [jenisAplikasiFilter, setJenisAplikasiFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 12
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     // Define the API URL you want to fetch data from
     const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi'; // Replace with your API URL
 
     // Fetch data from the API
     fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        // Set the fetched data in the state
-        setCardData(data);
-        setLoading(false);
+    .then((response) => response.json())
+    .then((data) => {
+      // Set the fetched data in the state
+      setCardData(data);
+      setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
         setLoading(false);
       });
   }, []);
-
+  
+  const paginateCards = () => {
+    const indexOfLastCard = currentPage * cardsPerPage;
+    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+    return filteredCards().slice(indexOfFirstCard, indexOfLastCard);
+  };
+  
+  
   // Get unique pemilik aplikasi and jenis aplikasi values from the fetched data
   const uniquePenggunaAplikasi = [...new Set(cardData.map((card) => card.pengguna_aplikasi))];
   const uniquePemilikAplikasi = [...new Set(cardData.map((card) => card.pemilik_aplikasi))];
@@ -42,15 +51,15 @@ const FilteringAplikasi = () => {
         const penggunaAplikasiMatch = penggunaAplikasiFilter === 'all' || card.pengguna_aplikasi === penggunaAplikasiFilter;
         const pemilikAplikasiMatch = pemilikAplikasiFilter === 'all' || card.pemilik_aplikasi === pemilikAplikasiFilter;
         const jenisAplikasiMatch = jenisAplikasiFilter === 'all' || card.jenis_aplikasi === jenisAplikasiFilter;
-  
+        
         const searchMatch =
-          searchQuery === '' ||
+        searchQuery === '' ||
           card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           card.content.toLowerCase().includes(searchQuery.toLowerCase());
-        
           
-        return penggunaAplikasiMatch && pemilikAplikasiMatch && jenisAplikasiMatch && searchMatch;
-      } else {
+          
+          return penggunaAplikasiMatch && pemilikAplikasiMatch && jenisAplikasiMatch && searchMatch;
+        } else {
         // Handle cases where card, title, or content is undefined
         return false;
       }
@@ -59,11 +68,46 @@ const FilteringAplikasi = () => {
 
   };
 
+  const totalPages = Math.ceil(filteredCards().length / cardsPerPage);
+  const pageButtons = Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+    <Button
+    key={page}
+    variant="contained"
+    sx={page === currentPage ? styles.currentButton : styles.button}
+    // color={page === currentPage ? "primary" : "default"}
+    onClick={() => setCurrentPage(page)}
+    >
+      {page}
+    </Button>
+  ));
+  
+  const previousButton = (
+    <Button
+      variant="contained"
+      sx={styles.prev}
+      onClick={() => setCurrentPage(currentPage - 1)}
+      disabled={currentPage === 1}
+    >
+      Previous
+    </Button>
+  );
+  
+  const nextButton = (
+    <Button
+      variant="contained"
+      sx={styles.next}
+      onClick={() => setCurrentPage(currentPage + 1)}
+      disabled={currentPage === totalPages}
+    >
+      Next
+    </Button>
+  );
+  
 
 
   return (
     <div>
-      {/* <Divider sx={styles.divider} /> */}
+      <Divider sx={styles.divider} />
 
       <Select
         value={penggunaAplikasiFilter}
@@ -121,9 +165,50 @@ const FilteringAplikasi = () => {
           ),
         }}
       />
-
-
+    <Divider sx={styles.divider}/>
       {loading ? (
+        <CircularProgress style={{ margin: '20px' }} />
+      ) : (
+        paginateCards().length === 0 ? (
+          <Typography variant="body1" style={{ margin: '10px' }}>
+            No data matching your criteria found.
+          </Typography>
+        ) : (
+          <Grid container spacing={2}>
+            {paginateCards().map((card, index) => (
+              <Grid item xs={12} sm={5} md={3} key={index}>
+                <AplikasiCard imageUrl={card.imageUrl} title={card.title} content={card.content} buttonUrl={card.buttonUrl} />
+              </Grid>
+            ))}
+          </Grid>
+        )
+      )}
+    <Divider sx={styles.divider}/>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+      {previousButton}
+      {pageButtons}
+      {nextButton}
+    </div>
+
+      {/* {loading ? (
+        <CircularProgress style={{ margin: '20px' }} />
+      ) : (
+        paginateCards().length === 0 ? (
+          <Typography variant="body1" style={{ margin: '10px' }}>
+            No data matching your criteria found.
+          </Typography>
+        ) : (
+          <Grid container spacing={2}>
+            {paginateCards().map((card, index) => (
+              <Grid item xs={12} sm={5} md={3} key={index}>
+                <AplikasiCard imageUrl={card.imageUrl} title={card.title} content={card.content} buttonUrl={card.buttonUrl} />
+              </Grid>
+            ))}
+          </Grid>
+        )
+      )} */}
+
+      {/* {loading ? (
         <CircularProgress style={{ margin: '20px' }} />
         ) : (
           filteredCards().length === 0 ? (
@@ -139,15 +224,86 @@ const FilteringAplikasi = () => {
             ))}
           </Grid>
         )
-      )}
+      )} */}
+
+    {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setCurrentPage(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        Previous Page
+      </Button>
+      
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setCurrentPage(currentPage + 1)}
+        disabled={currentPage * cardsPerPage >= filteredCards().length}
+      >
+        Next Page
+      </Button>
+    </div> */}
+
     </div>
   );
 };
 
 export default FilteringAplikasi;
 
+
+/**
+ * @type {import("@mui/material").SxProps}
+ */
+
 const styles = {
   divider: {
     my: 4,
   },
+  button: {
+    backgroundColor: (theme) => theme.palette.neutral.brown,
+    color: 'white',
+    border: '1px solid',
+    borderColor: 'lightgray',
+    borderRadius: 1.5,
+    padding: '4px 8px',
+    margin: '1px',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'white',
+      color: (theme) => theme.palette.primary.main,
+    },
+  },
+  next: {
+    backgroundColor: (theme) => theme.palette.neutral.normal,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'white',
+      color: (theme) => theme.palette.primary.main,
+    },
+  },
+  prev: {
+    backgroundColor: (theme) => theme.palette.neutral.normal,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'white',
+      color: (theme) => theme.palette.primary.main,
+    },
+  },
+  currentButton: {
+    // Style for the current page button
+    backgroundColor: 'lightgray',
+    color: 'black',
+    border: '1px solid',
+    borderColor: 'darkgray',
+    borderRadius: 2,
+    padding: '4px 8px',
+    margin: '1px',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'darkgray',
+      color: 'white',
+    },
+  }
 };

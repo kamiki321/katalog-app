@@ -3,10 +3,9 @@ import { useState } from "react";
 import TabPanel from "../../components/TabPanel";
 
 import { Helmet } from "react-helmet-async";
-import Software from "../../containers/card/Software";
 import CariAplikasi from "../../containers/AplikasiPage/CariAplikasi";
-import { AplikasiSatker } from "../../containers/AplikasiPage/AplikasiSatker";
-import { OverviewAplikasi } from "../../containers/AplikasiPage/OverviewAplikasi";
+// import { AplikasiSatker } from "../../containers/AplikasiPage/AplikasiSatker";
+// import { OverviewAplikasi } from "../../containers/AplikasiPage/OverviewAplikasi";
 import FilteringAplikasi from "../../containers/AplikasiPage/FilteringAplikasi";
 
 
@@ -43,7 +42,6 @@ function KatalogAplikasi() {
         </TabPanel>
         <TabPanel value={value} index={1}>
         <CariAplikasi/>
-            {/* <Typography>Nothing yet!</Typography> */}
         </TabPanel>
 
         </Box>
