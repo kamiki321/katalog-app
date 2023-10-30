@@ -42,27 +42,39 @@ export default function AppByJenisPieChart() {
     }
   
     const jenisToFilter = Object.keys(jenisColors);
+
+    const token = sessionStorage.getItem('token');
     // Fetch data from your API endpoint
-    fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi")
-      .then((response) => response.json())
-      .then((apiData) => {
-        console.log("Fetched data:", apiData); 
-        // Filter the data based on "jenis_aplikasi"
-        const filteredData = apiData.filter((item) =>
-          jenisToFilter.includes(item.jenis_aplikasi)
-        );
-        console.log("Filtered data:", filteredData);
-        // Extract "satker" and quantity from the data
-        const jenisData = jenisToFilter.map((jenis_aplikasi) => ({
-          name: jenis_aplikasi,
-          value: filteredData.filter((item) => item.jenis_aplikasi === jenis_aplikasi).length,
-          fill: jenisColors[jenis_aplikasi],
-        }));
-
-        setData(jenisData);
-
+    if (token) {
+      fetch("http://localhost:3333/api/v1/katalog/aplikasi",{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => console.error("Error fetching data:", error));
+        .then((response) => response.json())
+        .then((apiData) => {
+          console.log("Fetched data:", apiData); 
+          // Filter the data based on "jenis_aplikasi"
+          const filteredData = apiData.filter((item) =>
+            jenisToFilter.includes(item.jenis_aplikasi)
+          );
+          console.log("Filtered data:", filteredData);
+          // Extract "satker" and quantity from the data
+          const jenisData = jenisToFilter.map((jenis_aplikasi) => ({
+            name: jenis_aplikasi,
+            value: filteredData.filter((item) => item.jenis_aplikasi === jenis_aplikasi).length,
+            fill: jenisColors[jenis_aplikasi],
+          }));
+  
+          setData(jenisData);
+  
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+
+    } else {
+
+    }
   }, []);
 
   return (

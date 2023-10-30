@@ -26,7 +26,7 @@ const [emailError, setEmailError] = useState('');
 
 
 const handleBackToLogin = (e) => {
-  navigate('/')
+  navigate('/user/login')
 };
 
 const handleEmailChange = (e) => {
@@ -73,15 +73,53 @@ const validateForm = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  if(validateForm()){
+  if (validateForm()) {
     try {
-      const response = await axios.post('http://localhost:3333/api/v1/register', { username, email, password });
-      console.log(response.data);
+      const response = await fetch('http://localhost:3333/api/v1/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          username, email, password 
+        }),
+      })
+
+      if(response.ok){
+        const data = await response.json();
+        console.log('Respons dari server : ', data)
+        if (data) {
+          alert("Berhasil!");
+          navigate('/user/login');
+        } else{
+          const errorData = await response.json();
+          console.log(response.status, errorData);
+          alert("Terjadi kesalahan di server");
+        }
+      }
     } catch (error) {
-      console.error(error);
-    } 
+        console.error(error);
+        alert('Registration failed');
+    }
+      // .then((response) => {
+      //   if (response.ok) {
+      //     return response.json();
+      //   } else {
+      //     throw new Error('Registration failed');
+      //   }
+      // })
+      // .then((data) => {
+      //   console.log(data);
+      //   alert("Berhasil!");
+      //   navigate('/');
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      //   alert("Terjadi kesalahan saat melakukan permintaan");
+      // });
   }
 };
+
 
 return (
   <div>

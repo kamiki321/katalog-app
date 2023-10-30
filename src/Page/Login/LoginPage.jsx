@@ -101,7 +101,7 @@ export const LoginPage = () => {
         } else {
           const errorData = await response.json();
           console.log(response.status, errorData);
-          alert("Terjadi kesalahan di server");
+          alert("Terjadi kesalahan di server, Jika anda Admin silahkan login lewat halaman Login Admin");
         }
       } catch (error) {
         console.error(error);
@@ -112,51 +112,7 @@ export const LoginPage = () => {
       // alert(validationErrors.join('\n'));
     }
   }
-  //       console.log('Respons dari server:', response.data);
-  //       if (response.data) {
-  //         // Assuming the token is returned in the response
-  //         const token = response.data.token
-  //         console.log('token', token)
 
-  //         sessionStorage.setItem('token', token);
-
-  //         const userData = { loggedIn: true, token: token };
-  //         console.log(token)
-  //         sessionStorage.setItem('user', JSON.stringify(userData));
-  //         // Set the token in the context
-  //         setUser(userData);
-
-  //         // // Store the token in localStorage if needed
-  //         // localStorage.setItem('token', token);
-  //         // console.log(token);
-
-  //         navigate('/dashboard');
-  //       }
-  //     } catch (error) {
-  //       if (error.response) {
-  //         console.log(error.response.status, error.response.data);
-  //         alert("An error occurred on the server side");
-  //       } else {
-  //         console.error(error);
-  //         alert("An error occurred while making the request");
-  //       }
-  //     }
-  //   } else {
-  //     // Handle validation errors
-  //     // alert(validationErrors.join('\n'));
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const storedUser = sessionStorage.getItem('user');
-  //   if (storedUser) {
-  //     const userData = JSON.parse(storedUser);
-  //     if (userData.loggedIn) {
-  //       setUser(userData);
-  //       navigate('/dashboard');
-  //     }
-  //   }
-  // }, [navigate, setUser]);
   
   // Gunakan useEffect untuk mengecek status login saat komponen dimuat
   useEffect(() => {
@@ -178,13 +134,12 @@ export const LoginPage = () => {
       
       <div>
       <Typography  fontFamily="sans-serif" variant="h4" align="center"  sx={styles.spacer}>
-      Selamat datang pada Katalog Data Aplikasi 
+      Selamat datang pada halaman Login User Katalog Data Aplikasi 
       </Typography>
       <Container maxWidth="xs">
       <Paper elevation={3} style={{ padding: '50px' }}>
-      
         <Typography variant="h4" align="center" gutterBottom>
-          <img src ="src/assets/logo_kemhan.png" width='80px' height='auto'  />
+          <img src ="logoKemhan.png" width='80px' height='auto'  />
           <br></br>
           Sign In!
         </Typography>
@@ -232,7 +187,7 @@ export const LoginPage = () => {
             align="center" 
             gutterBottom >
               Belum punya akun?
-              <Button  href="/register">
+              <Button  href="/user/register">
                  buat sekarang!
               </Button>
             </Typography>

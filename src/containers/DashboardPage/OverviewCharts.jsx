@@ -1,27 +1,107 @@
 
 import { Line } from 'react-chartjs-2';
 import { AppBar, Box, Tab, Tabs } from '@mui/material';
-import { getEmptyData, getMainChartData, getSecondChartData, mainChartOptions } from './ChartConfigs';
-import { useState } from 'react';
+import { getEmptyData, getHardwareChartData, getMainChartData, getSecondChartData, mainChartOptions } from './ChartConfigs';
 import TabPanel from '../../components/TabPanel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowDropDownCircleSharpIcon from '@mui/icons-material/ArrowDropDownCircleSharp';
 import AnalyticsTabHead from './AnalyticsTabHead';
 import { forwardRef } from 'react';
 import { AppBlocking, AppShortcutSharp, AppsOutlined, AppsRounded, AppsTwoTone, Folder, HardwareOutlined } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
 
+const apiData = 'http://localhost:3333/api/v1/katalog/data';
+const apiApp = 'http://localhost:3333/api/v1/katalog/aplikasi' ;
+const apiHard = 'http://localhost:3333/api/v1/katalog/hardware';
+
+function OverviewCharts() {
+    const [aplikasiCount, setAplikasiCount] = useState(0);
+    const [dataCount, setDataCount] = useState(0);
+    const [hardwareCount, setHardwareCount] = useState(0);
+
+    
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+            //data
+            fetch(apiData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json(); // Parse response as JSON
+                } else {
+                    throw new Error(`Failed to fetch data: ${response.statusText}`);
+                }
+            })
+            .then((data) => {
+                setDataCount(data.length); // Assuming data is an array
+            })
+            .catch((error) => {
+                console.error('Error fetching Data data:', error);
+            });
+            
+            //aplikasi
+            fetch(apiApp, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json(); // Parse response as JSON
+                } else {
+                    throw new Error(`Failed to fetch data: ${response.statusText}`);
+                }
+            })
+            .then((data) => {
+                setAplikasiCount(data.length); // Assuming data is an array
+            })
+            .catch((error) => {
+                console.error('Error fetching Aplikasi data:', error);
+            });
+            
+            //hardware
+            fetch(apiHard, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json(); // Parse response as JSON
+                } else {
+                    throw new Error(`Failed to fetch data: ${response.statusText}`);
+                }
+            })
+            .then((data) => {
+                setHardwareCount(data.length); // Assuming data is an array
+            })
+            .catch((error) => {
+                console.error('Error fetching Hardware data:', error);
+            });
+        }
+    }, [apiData, apiApp, apiHard]);
+    
 
 const AplikasiTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     title='Aplikasi'
     ref={ref}
     icon={<AppShortcutSharp color='green' />}
-    value='232' subtitle={'232 Total Aplikasi'} />);
+    value={aplikasiCount} 
+    subtitle={`${aplikasiCount} Total Aplikasi`} />);
 
 const DataTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     title='Data'
     ref={ref}
     icon={<Folder color='green'/>}
-    value='61' subtitle={'61 Total Data '} />);
+    value={dataCount} 
+    subtitle={`${dataCount} Total Data`} />);
 
 const SoftTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     ref={ref}
@@ -33,9 +113,10 @@ const HardTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     ref={ref}
     title='Hardware'
     icon={<HardwareOutlined color='green'  />}
-    value='36' subtitle={'36 Total Hardware'} />);
+    value={hardwareCount}
+    subtitle={`${hardwareCount} Total Hardware`} 
+    />);
 
-function OverviewCharts() {
 
     const [value, setValue] = useState(0);
 
@@ -63,12 +144,12 @@ function OverviewCharts() {
         </TabPanel>
         <TabPanel value={value} index={2} mt={0}>
             <Box sx={styles.mainChart}>
-                <Line options={mainChartOptions} data={getMainChartData()} />
+                {/* <Line options={mainChartOptions} data={getMainChartData()} /> */}
             </Box>
         </TabPanel>
         <TabPanel value={value} index={3} mt={0}>
             <Box sx={styles.mainChart}>
-                <Line options={mainChartOptions} data={getSecondChartData()} />
+                {/* <Line options={mainChartOptions} data={getHardwareChartData()} /> */}
             </Box>
         </TabPanel>
     </Box>

@@ -7,11 +7,20 @@ import React, { useEffect, useState } from 'react'
 const CariAplikasi = () => {
   const [tableData, setTableData] = useState([]);
   const [pageSize, setPageSize] = useState(10);
-
+  const token = sessionStorage.getItem('token')
   useEffect(() => {
-    fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi")
-    .then((data) => data.json())
-    .then((data) => setTableData(data))
+    if (token){
+      fetch("http://localhost:3333/api/v1/katalog/aplikasi",{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+      }
+      )
+      .then((data) => data.json())
+      .then((data) => setTableData(data))   
+    } else {
+    }
   }, [])
 
 console.log(tableData);

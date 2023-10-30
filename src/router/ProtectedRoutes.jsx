@@ -16,13 +16,14 @@ const useAuth = () => {
 const ProtectedRoutes = () => {
     const location = useLocation();
     const isAuth = useAuth();
+    const isRole = 'admin'
   return isAuth ? (
     <>
         <ProSidebarProvider>
               <CssBaseline />
               <AppHeader />
               <Box sx={styles.container}>
-                <SideNav />
+                <SideNav isRole={isRole}/>
                 <Box
                   component={'main'}
                   sx={styles.mainSection}
@@ -34,7 +35,7 @@ const ProtectedRoutes = () => {
         </ProSidebarProvider> 
     </>
   ) : ( 
-    <Navigate to='/' replace state={{ from: location}} />
+    <Navigate to='/user/login' replace state={{ from: location}} />
   ) 
   
 

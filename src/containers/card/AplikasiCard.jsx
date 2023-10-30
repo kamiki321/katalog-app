@@ -4,7 +4,7 @@ import { Button, Card, CardContent, CardMedia, Typography } from '@mui/material'
 
 
 
-const AplikasiCard = ({ imageUrl, title, content, buttonUrl }) => {
+const AplikasiCard = ({ imageUrl, title, content, buttonUrl,pengguna_aplikasi }) => {
   return (
     <Card>
       <CardMedia
@@ -18,7 +18,10 @@ const AplikasiCard = ({ imageUrl, title, content, buttonUrl }) => {
         <Typography variant="h5" display="flex" component="div">
           {title}
         </Typography>
-        <Typography variant="body2">{content}</Typography>
+        <Typography variant="h6" display="flex" component="div">
+          Pengguna Aplikasi : {pengguna_aplikasi}
+        </Typography>
+        <Typography variant="body2">Deskripsi Aplikasi : {content}</Typography>
         <Button 
         variant="contained" 
         color="primary" 

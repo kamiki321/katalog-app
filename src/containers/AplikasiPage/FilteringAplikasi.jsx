@@ -12,7 +12,8 @@ const FilteringAplikasi = () => {
   const cardsPerPage = 12
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  
+
+
   useEffect(() => {
     // Define the API URL you want to fetch data from
     const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi'; // Replace with your API URL
@@ -68,13 +69,20 @@ const FilteringAplikasi = () => {
 
   };
 
-  const totalPages = Math.ceil(filteredCards().length / cardsPerPage);
+  const getPageData = (page) => {
+    const startIndex = (page - 1) * cardsPerPage;
+    const endIndex = startIndex + cardsPerPage;
+    return combinedData.slice(startIndex, endIndex);
+  };
+
+  const combinedData = filteredCards(); // Menggunakan hasil filter
+  const totalPages = Math.ceil(combinedData.length / cardsPerPage);
+
   const pageButtons = Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
     <Button
     key={page}
     variant="contained"
     sx={page === currentPage ? styles.currentButton : styles.button}
-    // color={page === currentPage ? "primary" : "default"}
     onClick={() => setCurrentPage(page)}
     >
       {page}
@@ -169,82 +177,44 @@ const FilteringAplikasi = () => {
       {loading ? (
         <CircularProgress style={{ margin: '20px' }} />
       ) : (
-        paginateCards().length === 0 ? (
+        combinedData.length === 0 ? (
           <Typography variant="body1" style={{ margin: '10px' }}>
             No data matching your criteria found.
           </Typography>
         ) : (
           <Grid container spacing={2}>
-            {paginateCards().map((card, index) => (
+            {getPageData(currentPage).map((card, index) => (
               <Grid item xs={12} sm={5} md={3} key={index}>
-                <AplikasiCard imageUrl={card.imageUrl} title={card.title} content={card.content} buttonUrl={card.buttonUrl} />
+                <AplikasiCard imageUrl={card.imageUrl} title={card.title} pengguna_aplikasi={card.pengguna_aplikasi} content={card.content} buttonUrl={card.buttonUrl} />
               </Grid>
             ))}
           </Grid>
         )
-      )}
+        )}
     <Divider sx={styles.divider}/>
+    {/* {loading ? (
+      <CircularProgress style={{ margin: '20px' }} />
+      ) : (
+        filteredCards().length === 0 ? (
+        <Typography variant="body1" style={{ margin: '10px' }}>
+          No data matching your criteria found.
+        </Typography>
+      ) : (
+        <Grid container spacing={2}>
+          {filteredCards().map((card, index) => (
+            <Grid item xs={12} sm={5} md={3} key={index}>
+              <AplikasiCard imageUrl={card.imageUrl} title={card.title} content={card.content} buttonUrl={card.buttonUrl} />
+            </Grid>
+          ))}
+        </Grid>
+      )
+    )} */}
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
       {previousButton}
       {pageButtons}
       {nextButton}
     </div>
 
-      {/* {loading ? (
-        <CircularProgress style={{ margin: '20px' }} />
-      ) : (
-        paginateCards().length === 0 ? (
-          <Typography variant="body1" style={{ margin: '10px' }}>
-            No data matching your criteria found.
-          </Typography>
-        ) : (
-          <Grid container spacing={2}>
-            {paginateCards().map((card, index) => (
-              <Grid item xs={12} sm={5} md={3} key={index}>
-                <AplikasiCard imageUrl={card.imageUrl} title={card.title} content={card.content} buttonUrl={card.buttonUrl} />
-              </Grid>
-            ))}
-          </Grid>
-        )
-      )} */}
-
-      {/* {loading ? (
-        <CircularProgress style={{ margin: '20px' }} />
-        ) : (
-          filteredCards().length === 0 ? (
-          <Typography variant="body1" style={{ margin: '10px' }}>
-            No data matching your criteria found.
-          </Typography>
-        ) : (
-          <Grid container spacing={2}>
-            {filteredCards().map((card, index) => (
-              <Grid item xs={12} sm={5} md={3} key={index}>
-                <AplikasiCard imageUrl={card.imageUrl} title={card.title} content={card.content} buttonUrl={card.buttonUrl} />
-              </Grid>
-            ))}
-          </Grid>
-        )
-      )} */}
-
-    {/* <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setCurrentPage(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        Previous Page
-      </Button>
-      
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setCurrentPage(currentPage + 1)}
-        disabled={currentPage * cardsPerPage >= filteredCards().length}
-      >
-        Next Page
-      </Button>
-    </div> */}
 
     </div>
   );

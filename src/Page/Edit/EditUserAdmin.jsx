@@ -2,9 +2,12 @@ import { Box, Card, CardContent, Divider, Tab, Tabs, Typography } from "@mui/mat
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import TabPanel from "../../components/TabPanel";
-import HardwareTable from "../../containers/tikPage/HardwareTable";
+import { EditAdmin } from "../../containers/EditPage/EditAdmin";
+import EditUser from "../../containers/EditPage/EditUser";
 
-export const KatalogTIK = () => {
+
+
+export const EditUserAdmin = () => {
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
@@ -14,29 +17,23 @@ export const KatalogTIK = () => {
       <>
         <Helmet>
           <title>
-              Katalog TIK
+              Edit User & Admin
           </title>
         </Helmet>
         <div>
         <Box>
-        <Typography sx={styles.pageTitle} variant="h5">Katalog TIK</Typography>
+        <Typography sx={styles.pageTitle} variant="h5">Edit User dan Admin</Typography>
         <Box sx={styles.tabHeader}>
             <Tabs value={value} onChange={handleChange}>
-                <Tab label="Overview" id='tab-0' />
-                <Tab label="Software" id='tab-1' />
-                <Tab label="Hardware" id='tab-2' />
+                <Tab label="Edit User&Admin Data" id='tab-0' />
+                {/* <Tab label="Edit Admin" id='tab-1' /> */}
             </Tabs>
         </Box>
         <TabPanel value={value} index={0} sx={{}}>
-            Coming Soon...
+          <EditUser/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-        Coming Soon...
-
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-            <HardwareTable/>
-            {/* <Typography>Nothing yet!</Typography> */}
+          {/* <EditAdmin /> */}
         </TabPanel>
         </Box>
         <footer>

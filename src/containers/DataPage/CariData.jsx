@@ -9,9 +9,21 @@ const CariData = () => {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-    fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all")
-    .then((data) => data.json())
-    .then((data) => setTableData(data))
+    const token = sessionStorage.getItem('token');
+
+    if (token) {
+      fetch("http://localhost:3333/api/v1/katalog/data", {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((data) => data.json())
+      .then((data) => setTableData(data))
+
+    } else {
+
+    }
   }, [])
 
 console.log(tableData);

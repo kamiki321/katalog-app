@@ -24,6 +24,7 @@ export default function PieChartStatus() {
 
   useEffect(() => {
     // Define the statuses to filter by and their corresponding colors
+    const token = sessionStorage.getItem('token');
     const statusColors = {
       Terbuka: "#8884d8",
       Tertutup: "#82ca9d",
@@ -34,29 +35,39 @@ export default function PieChartStatus() {
     // Define the statuses to filter by
     const statusesToFilter = Object.keys(statusColors);
 
-    // Fetch data from the API
-    fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all")
-      .then((response) => response.json())
-      .then((apiData) => {
-        console.log("Fetched data:", apiData); 
-        // Filter data based on the specified statuses
-        const filteredData = apiData.filter((item) =>
-          statusesToFilter.includes(item.status)
-        );
-        console.log("Filtered data:", filteredData);
-
-        // Calculate the quantity of each status
-        const statusData = statusesToFilter.map((status) => ({
-          name: status,
-          value: filteredData.filter((item) => item.status === status).length,
-          fill: statusColors[status], // Specify the color for the status
-        }));
-
-        setData(statusData);
+    if (token) {
+      fetch("http://localhost:3333/api/v1/katalog/data", {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+        .then((response) => response.json())
+        .then((apiData) => {
+          console.log("Fetched data:", apiData); 
+          // Filter data based on the specified statuses
+          const filteredData = apiData.filter((item) =>
+            statusesToFilter.includes(item.status)
+          );
+          console.log("Filtered data:", filteredData);
+  
+          // Calculate the quantity of each status
+          const statusData = statusesToFilter.map((status) => ({
+            name: status,
+            value: filteredData.filter((item) => item.status === status).length,
+            fill: statusColors[status], // Specify the color for the status
+          }));
+  
+          setData(statusData);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+
+    } else {
+
+    }
+    // Fetch data from the API
   }, []);
 
   const handleExportPNG = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import DataSatkerTable from './DataSatkerTable';
 
 const Component1 = () => {
-  const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+  const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
   const filterBySatker = 'Bainstrahan Kemhan'; // Specify the 'satker' value to filter by
 
   return (
@@ -14,7 +14,7 @@ const Component1 = () => {
 };
 
 const Component2 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Baranahan Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -26,7 +26,7 @@ const Component2 = () => {
 };
 
 const Component3 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Biro Humas Setjen Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -38,7 +38,7 @@ const Component3 = () => {
 };
 
 const Component4 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Biro Turdang Setjen Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -50,7 +50,7 @@ const Component4 = () => {
 };
 
 const Component5 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Ditjen Kuathan Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -62,7 +62,7 @@ const Component5 = () => {
 };
 
 const Component6 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Ditjen Pothan Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -74,7 +74,7 @@ const Component6 = () => {
 };
 
 const Component7 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Ditjen Strahan Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -86,7 +86,7 @@ const Component7 = () => {
 };
 
 const Component8 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'lnspektorat Jenderal Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -98,7 +98,7 @@ const Component8 = () => {
 };
 
 const Component9 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Pusdatin Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -110,7 +110,7 @@ const Component9 = () => {
 };
 
 const Component10 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Puslaik Kemhan'; // Specify the 'satker' value to filter by
   
     return (
@@ -122,7 +122,7 @@ const Component10 = () => {
 };
 
 const Component11 = () => {
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all';
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/data';
     const filterBySatker = 'Pusrehab Kemhan'; // Specify the 'satker' value to filter by
   
     return (

@@ -16,30 +16,41 @@ export default function AppByPemilikBarChart() {
   const [uniquePemilikAplikasiValues, setUniquePemilikAplikasiValues] = useState([]);
   const [valueCounts, setValueCounts] = useState([]);
   const [fadeIn, setFadeIn] = useState(false);
-
+  
   useEffect(() => {
+    const token = sessionStorage.getItem('token');
     // Fetch data from the API
-    fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi")
-      .then((response) => response.json())
-      .then((apiData) => {
-        console.log("Fetched data:", apiData);
-
-        // Extract unique "pemilik_aplikasi" values
-        const uniqueValues = Array.from(new Set(apiData.map((item) => item.pemilik_aplikasi)));
-        setUniquePemilikAplikasiValues(uniqueValues);
-
-        // Count the occurrences of each unique value
-        const counts = uniqueValues.map((value) => ({
-          name: value,
-          count: apiData.filter((item) => item.pemilik_aplikasi === value).length
-        }));
-        setValueCounts(counts);
-
-        // Set the data
-        setData(apiData);
-        setFadeIn(true);
+    if (token) {
+      fetch("http://localhost:3333/api/v1/katalog/aplikasi", {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => console.error("Error fetching data:", error));
+        .then((response) => response.json())
+        .then((apiData) => {
+          console.log("Fetched data:", apiData);
+  
+          // Extract unique "pemilik_aplikasi" values
+          const uniqueValues = Array.from(new Set(apiData.map((item) => item.pemilik_aplikasi)));
+          setUniquePemilikAplikasiValues(uniqueValues);
+  
+          // Count the occurrences of each unique value
+          const counts = uniqueValues.map((value) => ({
+            name: value,
+            count: apiData.filter((item) => item.pemilik_aplikasi === value).length
+          }));
+          setValueCounts(counts);
+  
+          // Set the data
+          setData(apiData);
+          setFadeIn(true);
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+      
+    } else {
+      
+    }
   }, []);
   const animationStyle = fadeIn ? { opacity: 1, transition: "opacity 0.5s" } : { opacity: 0 };
 

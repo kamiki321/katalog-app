@@ -17,17 +17,29 @@ const ListData = styled('div')(({ theme }) => ({
 export default function TopDataList() {
   const [items, setItems] = useState([]);
   const [dense, setDense] = useState(false);
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
+    const token = sessionStorage.getItem('token');
     // Replace 'API_URL' with your actual API endpoint
-    fetch('https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all')
-      .then((response) => response.json())
-      .then((data) => {
-        // Slice the data to get the first ten items
-        const firstTenItems = data.slice(0, 10);
-        setItems(firstTenItems);
+    if (token) {
+      fetch('http://localhost:3333/api/v1/katalog/data',{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => console.error('Error fetching data: ', error));
+        .then((response) => response.json())
+        .then((data) => {
+          // Slice the data to get the first ten items
+          const firstTenItems = data.slice(0, 10);
+          setItems(firstTenItems);
+        })
+        .catch((error) => console.error('Error fetching data: ', error));
+    
+    } else {
+
+    }
   }, []);
 
   return (

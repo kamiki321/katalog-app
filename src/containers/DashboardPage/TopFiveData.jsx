@@ -16,15 +16,26 @@ function TopFiveData() {
     const [dense, setDense] = useState(false);
   
     useEffect(() => {
+    const token = sessionStorage.getItem('token');
       // Replace 'API_URL' with your actual API endpoint
-      fetch('https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all')
-        .then((response) => response.json())
-        .then((data) => {
-          // Slice the data to get the first five items
-          const firstFiveItems = data.slice(0, 5);
-          setItems(firstFiveItems);
-        })
-        .catch((error) => console.error('Error fetching data: ', error));
+      if (token) {
+          fetch('http://localhost:3333/api/v1/katalog/data',{
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Slice the data to get the first five items
+              const firstFiveItems = data.slice(0, 5);
+              setItems(firstFiveItems);
+            })
+            .catch((error) => console.error('Error fetching data: ', error));
+
+      } else {
+
+      }
     }, []);
 
     return (<Card sx={styles.realtimeStatsCard}>
@@ -49,7 +60,7 @@ function TopFiveData() {
                 component="button"
                 variant="body1"
                 onClick={() => {
-                    navigate('/katalog-data');
+                    navigate('/katalog/data');
                     console.info("I'm a button.");
                 }}
                 >

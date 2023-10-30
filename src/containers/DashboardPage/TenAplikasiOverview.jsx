@@ -15,18 +15,30 @@ function TenAplikasiOverview({ }) {
     const [rows, setRows] = useState([]); // State to store the data
 
     useEffect(() => {
+        const token = sessionStorage.getItem('token');
+
+        if (token) {
+            fetch('http://localhost:3333/api/v1/katalog/aplikasi', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            }) // Replace with your API endpoint
+                .then((response) => response.json())
+                .then((data) => {
+                  // Shuffle the data randomly
+                  const shuffledData = shuffleArray(data);
+                  // Limit the data to the first 10 items from the shuffled data
+                  const firstTenItems = shuffledData.slice(0, 10);
+                  // Update the rows state with the fetched and shuffled data
+                  setRows(firstTenItems);
+                })
+                .catch((error) => console.error('Error fetching data: ', error));
+
+        } else {
+
+        }
         // Fetch data from your API
-        fetch('https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi') // Replace with your API endpoint
-            .then((response) => response.json())
-            .then((data) => {
-              // Shuffle the data randomly
-              const shuffledData = shuffleArray(data);
-              // Limit the data to the first 10 items from the shuffled data
-              const firstTenItems = shuffledData.slice(0, 10);
-              // Update the rows state with the fetched and shuffled data
-              setRows(firstTenItems);
-            })
-            .catch((error) => console.error('Error fetching data: ', error));
     }, []);
 
     return (

@@ -41,7 +41,7 @@ function KatalogAplikasi() {
 
         </TabPanel>
         <TabPanel value={value} index={1}>
-        <CariAplikasi/>
+            <CariAplikasi/>
         </TabPanel>
 
         </Box>

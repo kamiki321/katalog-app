@@ -8,7 +8,7 @@ const HardwareTable = () => {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-    fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/hardware")
+    fetch("http://localhost:3333/api/v1/katalog/hardware")
     .then((data) => data.json())
     .then((data) => setTableData(data))
   }, [])

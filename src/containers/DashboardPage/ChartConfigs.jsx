@@ -167,6 +167,20 @@ export const getSecondChartData = () => {
     };
 }
 
+export const getHardwareChartData = () => {
+    return {
+        labels: satkerData,
+        datasets: [
+            {
+
+                label: 'Value',
+                data: data,
+                backgroundColor: 'rgba(34, 113, 15, 0.6)',
+                animation: false
+            },
+        ],
+    };
+}
 
 export const getEmptyData = () => {
     return {

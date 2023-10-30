@@ -87,31 +87,41 @@ export default function PieChartTotal() {
         "Puslaik Kemhan" : "#17becf",
         "Pusrehab Kemhan": "#aec7e8"
       };
-
-      const satkerToFilter = Object.keys(satkerColors);
+    const satkerToFilter = Object.keys(satkerColors);
+    const token = sessionStorage.getItem('token');
     // Fetch data from the API and filter it to extract "satker" and quantity
-    fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all")
-      .then((response) => response.json())
-      .then((apiData) => {
-        console.log("Fetched data:", apiData); 
-
-        const filteredData = apiData.filter((item) =>
-          satkerToFilter.includes(item.satker)
-        );
-        console.log("Filtered data:", filteredData);
-
-        // Extract "satker" and quantity from the data
-        const satkerData = satkerToFilter.map((satker) => ({
-          name: satker,
-          value: filteredData.filter((item) => item.satker === satker).length,
-          fill: satkerColors[satker],
-        }));
-
-        setData(satkerData);
+    if (token) {
+      fetch("http://localhost:3333/api/v1/katalog/data", {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+        .then((response) => response.json())
+        .then((apiData) => {
+          console.log("Fetched data:", apiData); 
+  
+          const filteredData = apiData.filter((item) =>
+            satkerToFilter.includes(item.satker)
+          );
+          console.log("Filtered data:", filteredData);
+  
+          // Extract "satker" and quantity from the data
+          const satkerData = satkerToFilter.map((satker) => ({
+            name: satker,
+            value: filteredData.filter((item) => item.satker === satker).length,
+            fill: satkerColors[satker],
+          }));
+  
+          setData(satkerData);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+
+    } else {
+
+    }
   }, []);
 
 

@@ -7,16 +7,28 @@ const DataSatkerTable = ({ apiUrl, filterBy }) => {
   const [pageSize, setPageSize] = useState(10);
 
   useEffect(() => {
-    fetch(apiUrl)
-      .then((data) => data.json())
-      .then((data) => {
-        setTableData(data);
-        // Filter data based on the 'filterBy' property
-        if (filterBy) {
-          const filtered = data.filter((item) => item.satker === filterBy);
-          setFilteredData(filtered);
-        }
-      });
+    const token = sessionStorage.getItem('token');
+
+    if (token){
+      fetch(apiUrl, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((data) => data.json())
+        .then((data) => {
+          setTableData(data);
+          // Filter data based on the 'filterBy' property
+          if (filterBy) {
+            const filtered = data.filter((item) => item.satker === filterBy);
+            setFilteredData(filtered);
+          }
+        });
+
+    } else {
+
+    }
   }, [apiUrl, filterBy]);
 
   const columns = [
@@ -27,7 +39,7 @@ const DataSatkerTable = ({ apiUrl, filterBy }) => {
     {field: 'satker', headerName: 'Satker', width: 250},
     {field: 'nama_dataset', headerName: 'Nama Dataset', width: 500 },
     {field: 'status', headerName: 'Status', width: 100 },
-    {field: 'kategori', headerName: 'Kategori', width: 200}
+    // {field: 'kategori', headerName: 'Kategori', width: 200}
   ];
 
   // Use 'filteredData' if it's available, otherwise use 'tableData'

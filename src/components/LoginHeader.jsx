@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Hidden from '@mui/material/Hidden';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 const LoginHeader = () => {
   return (
@@ -20,6 +20,13 @@ const LoginHeader = () => {
           <Box
                 sx={{ flexGrow: 1 }} />
         </Hidden>
+        <Button 
+        variant="outlined" 
+        color="secondary" 
+        href ="/admin/login"
+        >
+          Admin
+        </Button>
       </Toolbar>
     </AppBar>
   );
