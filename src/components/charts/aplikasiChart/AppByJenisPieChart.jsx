@@ -1,6 +1,6 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import axios from 'axios';
 
 const COLORS = ["#58AD60", "#76A37B"];
@@ -99,7 +99,7 @@ export default function AppByJenisPieChart() {
           dataKey="value"
         >
           {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}  />
           ))}
         </Pie>
         <Tooltip/>

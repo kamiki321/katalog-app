@@ -10,6 +10,7 @@ import TabPanel from "../../components/TabPanel";
 // import DataList from "../../components/List/DataList";
 import DataSatkerTable from "../../containers/Table/DataSatkerTable";
 import { Component1, Component10, Component11, Component2, Component3, Component4, Component5, Component6, Component7, Component8, Component9 } from "../../containers/Table/components";
+import { Kategori1, Kategori2, Kategori3, Kategori4, Kategori5, Kategori6, Kategori7, Kategori8 } from "../../containers/Table/components2";
 
 
 
@@ -33,6 +34,7 @@ function KatalogData() {
                 <Tabs value={value} onChange={handleChange}>
                     <Tab label="Semua Data" id='tab-0' />
                     <Tab label="Per Satker" id='tab-1' />
+                    <Tab label="Per Kategori" id='tab-1' />
 
 
                 </Tabs>
@@ -63,9 +65,26 @@ function KatalogData() {
                     <Component10/>
                     <Divider sx={styles.divider}/>
                     <Component11/>
+                </TabPanel>
 
-
-
+                <TabPanel value={value} index={2}>
+                    <Kategori1/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori2/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori3/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori4/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori4/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori5/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori6/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori7/>
+                    <Divider sx={styles.divider}/>
+                    <Kategori8/>
                 </TabPanel>
 
         </Box>

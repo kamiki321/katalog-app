@@ -67,7 +67,7 @@ function TenAplikasiOverview({ }) {
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
-                            <TableRow key={row.title}>
+                            <TableRow key={row.id}>
                                 <TableCell component="th" sx={styles.contentCell}>
                                     {row.title}
                                 </TableCell>

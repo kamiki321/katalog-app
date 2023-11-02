@@ -1,84 +1,136 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Container,
-  Typography,
-  TextField,
-  CircularProgress,
-} from '@mui/material';
+import { Button, Container, Typography, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Box, FormControl, InputLabel, CircularProgress } from '@mui/material';
 
 export const InputTIK = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null); 
+  const [openDialog, setOpenDialog] = useState(false);
+  const [formData, setFormData] = useState({
+    no_serial: '',
+    jenis: '',
+    type: '',
+  });
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const openErrorDialog = (errorMessage) => {
+    setError(errorMessage);
+    setOpenDialog(true);
+  };
+  
+  const openSuccessDialog = (successMessage) => {
+    setSuccess(successMessage);
+    setOpenDialog(true);
+  };
+  
+  const closeDialog = () => {
+    setError(null);
+    setSuccess(null);
+    setOpenDialog(false);
+
+    // Setelah dialog ditutup, mengosongkan nilai-nilai dalam TextField
+    setFormData({
+      no_serial: '',
+      jenis: '',
+      type: '',
+    });
   };
 
-  const handleUpload = async () => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('file', selectedFile);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    try {
-      const response = await fetch('/upload', {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const token = sessionStorage.getItem('token');
+
+    // Kirim data ke server atau lakukan operasi penyimpanan di sini
+
+    setIsLoading(true);
+
+    if(token){
+      fetch('http://localhost:3333/api/v1/input/hardware', {
         method: 'POST',
-        body: formData,
-      });
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          openSuccessDialog('Berhasil Input Hardware Baru');
+          setIsLoading(false);
+          console.log(data);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          openErrorDialog('An error occurred during the upload');
+          console.error(error);
+        });
 
-      if (response.ok) {
-        alert('File berhasil diunggah.');
-      } else {
-        alert('Gagal mengunggah file.');
-      }
-    } catch (error) {
-      console.error('Error mengunggah file:', error);
-    } finally {
-      setLoading(false);
+    } else {
+
     }
+    // Contoh pengiriman data ke server (gunakan URL sebenarnya Anda)
   };
 
   return (
     <Container>
-      <Typography variant="h6">Upload Data TIK Baru (.csv/.xlsx)</Typography>
-      <input
-        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-        style={{ display: 'none' }}
-        id="file-upload"
-        type="file"
-        onChange={handleFileChange}
-      />
-      <label htmlFor="file-upload">
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          value={selectedFile ? selectedFile.name : ''}
-          InputProps={{
-            readOnly: true,
-          }}
-          sx={{ marginBottom: 2 }}
-        />
+      <Typography variant="h4">Form Input data Hardware baru</Typography>
+      <form onSubmit={handleSubmit}>
+        <Box marginBottom={2}>
+          <TextField
+            name="no_serial"
+            label="No. Serial"
+            value={formData.no_serial}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Box>
+        <Box marginBottom={2}>
+          <TextField
+            name="jenis"
+            label="Jenis"
+            value={formData.jenis}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Box>
+        <Box marginBottom={2}>
+          <TextField
+            name="type"
+            label="Type"
+            value={formData.type}
+            onChange={handleInputChange}
+            fullWidth
+          />
+        </Box>
         <Button
+          type="submit"
           variant="contained"
-          component="span"
           color="primary"
           fullWidth
-          disabled={loading}
-          sx={{ marginBottom: 2 }}
+          style={{ marginTop: '16px' }}
         >
-          Pilih File
+          Kirim Data
         </Button>
-      </label>
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        onClick={handleUpload}
-        disabled={!selectedFile || loading}
-      >
-        {loading ? <CircularProgress size={24} color="inherit" /> : 'Upload'}
-      </Button>
+      </form>
+
+      <Dialog open={openDialog} onClose={closeDialog}>
+        <DialogTitle>Alert</DialogTitle>
+        <DialogContent>
+          {error && <div className="error-alert">{error}</div>}
+          {success && <div className="success-alert">{success}</div>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {isLoading && <CircularProgress />}
     </Container>
   );
-}
+};

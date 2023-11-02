@@ -26,7 +26,7 @@ const [emailError, setEmailError] = useState('');
 
 
 const handleBackToLogin = (e) => {
-  navigate('/user/login')
+  navigate('/login')
 };
 
 const handleEmailChange = (e) => {
@@ -90,7 +90,7 @@ const handleSubmit = async (e) => {
         console.log('Respons dari server : ', data)
         if (data) {
           alert("Berhasil!");
-          navigate('/user/login');
+          navigate('/login');
         } else{
           const errorData = await response.json();
           console.log(response.status, errorData);
@@ -142,7 +142,7 @@ return (
             padding: 3, // Add padding inside the card
           }}
         >
-          <img src ="src/assets/logo_kemhan.png" width='80px' height='auto'  />
+          <img src ="src/assets/logoKemhan.png" width='80px' height='auto'  />
           <Typography component="h1" variant="h5">
             Register
           </Typography>

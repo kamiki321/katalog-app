@@ -1,13 +1,11 @@
 
 import { Line } from 'react-chartjs-2';
-import { AppBar, Box, Tab, Tabs } from '@mui/material';
+import { AppBar, Box, ImageListItem, ListItem, ListItemAvatar, MenuItem, Tab, Tabs } from '@mui/material';
 import { getEmptyData, getHardwareChartData, getMainChartData, getSecondChartData, mainChartOptions } from './ChartConfigs';
 import TabPanel from '../../components/TabPanel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ArrowDropDownCircleSharpIcon from '@mui/icons-material/ArrowDropDownCircleSharp';
 import AnalyticsTabHead from './AnalyticsTabHead';
 import { forwardRef } from 'react';
-import { AppBlocking, AppShortcutSharp, AppsOutlined, AppsRounded, AppsTwoTone, Folder, HardwareOutlined } from '@mui/icons-material';
+import { AppBlocking, AppRegistrationOutlined, AppShortcutSharp, AppsOutlined, AppsRounded, AppsTwoTone, Folder, HardwareOutlined } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 
 const apiData = 'http://localhost:3333/api/v1/katalog/data';
@@ -19,6 +17,7 @@ function OverviewCharts() {
     const [dataCount, setDataCount] = useState(0);
     const [hardwareCount, setHardwareCount] = useState(0);
 
+  
     
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -89,6 +88,9 @@ function OverviewCharts() {
     }, [apiData, apiApp, apiHard]);
     
 
+const totalItem = aplikasiCount + dataCount + hardwareCount
+console.log(`Total: ${totalItem}`);
+
 const AplikasiTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     title='Aplikasi'
     ref={ref}
@@ -103,11 +105,13 @@ const DataTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     value={dataCount} 
     subtitle={`${dataCount} Total Data`} />);
 
-const SoftTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
+const TotalTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     ref={ref}
-    title='Software' 
-    icon={<AppsOutlined color='green' />}
-    value='-' subtitle={'- Total Software'} />);
+    title='Item' 
+    icon={<AppRegistrationOutlined color='green'/>}
+    value={totalItem} 
+    subtitle={`${totalItem} Total Item`} 
+    />);
 
 const HardTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
     ref={ref}
@@ -126,25 +130,25 @@ const HardTabHead = forwardRef((props, ref) => <AnalyticsTabHead {...props}
 
     return <Box sx={styles.container}>
         <Tabs value={value} onChange={handleChange}>
-            <Tab component={AplikasiTabHead} id='tab-0' />
-            <Tab component={DataTabHead} id='tab-1' />
-            <Tab component={SoftTabHead} id='tab-2' />
+            <Tab component={TotalTabHead} id='tab-0' />
+            <Tab component={AplikasiTabHead} id='tab-1' />
+            <Tab component={DataTabHead} id='tab-2' />
             <Tab component={HardTabHead} id='tab-3' />
         </Tabs>
 
         <TabPanel value={value} index={0} mt={0}>
             <Box sx={styles.mainChart}>
-                <Line options={mainChartOptions} data={getMainChartData()} />
+                <Line options={mainChartOptions} data={getEmptyData()} />
             </Box>
         </TabPanel>
         <TabPanel value={value} index={1} mt={0}>
             <Box sx={styles.mainChart}>
-                <Line options={mainChartOptions} data={getSecondChartData()} />
+                <Line options={mainChartOptions} data={getMainChartData()} />
             </Box>
         </TabPanel>
         <TabPanel value={value} index={2} mt={0}>
             <Box sx={styles.mainChart}>
-                {/* <Line options={mainChartOptions} data={getMainChartData()} /> */}
+                <Line options={mainChartOptions} data={getSecondChartData()}/>
             </Box>
         </TabPanel>
         <TabPanel value={value} index={3} mt={0}>
@@ -164,8 +168,8 @@ export default OverviewCharts;
 
 const styles = {
     mainChart: {
-        height: 250,
-        border: 1,
+        height: 350,
+        border: 2,
         borderColor: 'neutral.medium',
         pt: 4,
         borderTop: 'none',

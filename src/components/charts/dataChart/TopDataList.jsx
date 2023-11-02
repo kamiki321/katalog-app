@@ -17,7 +17,7 @@ const ListData = styled('div')(({ theme }) => ({
 export default function TopDataList() {
   const [items, setItems] = useState([]);
   const [dense, setDense] = useState(false);
-  const token = sessionStorage.getItem('token');
+
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');

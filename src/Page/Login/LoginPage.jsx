@@ -139,7 +139,8 @@ export const LoginPage = () => {
       <Container maxWidth="xs">
       <Paper elevation={3} style={{ padding: '50px' }}>
         <Typography variant="h4" align="center" gutterBottom>
-          <img src ="logoKemhan.png" width='80px' height='auto'  />
+        <img src="./logoKemhan.png" width="80px" height="auto" />
+
           <br></br>
           Sign In!
         </Typography>
@@ -187,7 +188,7 @@ export const LoginPage = () => {
             align="center" 
             gutterBottom >
               Belum punya akun?
-              <Button  href="/user/register">
+              <Button  href="/register">
                  buat sekarang!
               </Button>
             </Typography>

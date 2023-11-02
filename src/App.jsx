@@ -43,9 +43,9 @@ function App() {
           <UserContext.Provider value={{user, setUser}}>
             <BrowserRouter>
               <Routes>
-                  <Route path='/admin/login' element={<LoginAdmin/>} />
-                  <Route path='/user/login' element={<LoginPage/>} />
-                  <Route path='/user/register' element={<RegisterForm/>}/>
+                  <Route path='/login-admin' element={<LoginAdmin/>} />
+                  <Route path='/login' element={<LoginPage/>} />
+                  <Route path='/register' element={<RegisterForm/>}/>
                   <Route element={<ProtectedRoutes />}>
                     <Route path='/dashboard' element={<Analytics />} />
                     <Route path='/katalog/aplikasi' element={<KatalogAplikasi />} />

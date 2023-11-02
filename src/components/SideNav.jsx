@@ -42,7 +42,7 @@ function SideNav({ isRole }) {
                     </MenuItem>
                 </>
             )}
-            <MenuItem active={window.location.pathname === "/faq"} component={<Link to="/faq" />} icon={<QuestionMarkOutlined color="secondary" />}> <Typography color="secondary" variant="body2">FAQ </Typography></MenuItem >
+            {/* <MenuItem active={window.location.pathname === "/faq"} component={<Link to="/faq" />} icon={<QuestionMarkOutlined color="secondary" />}> <Typography color="secondary" variant="body2">FAQ </Typography></MenuItem > */}
         </Menu >
     </Sidebar >;
 }

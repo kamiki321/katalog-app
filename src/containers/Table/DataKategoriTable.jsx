@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
-const DataSatkerTable = ({ apiUrl, filterBy }) => {
+const DataKategoriTable = ({ apiUrl, filterBy }) => {
   const [tableData, setTableData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [pageSize, setPageSize] = useState(10);
@@ -21,7 +21,7 @@ const DataSatkerTable = ({ apiUrl, filterBy }) => {
           setTableData(data);
           // Filter data based on the 'filterBy' property
           if (filterBy) {
-            const filtered = data.filter((item) => item.satker === filterBy);
+            const filtered = data.filter((item) => item.kategori === filterBy);
             setFilteredData(filtered);
           }
         });
@@ -59,4 +59,4 @@ const DataSatkerTable = ({ apiUrl, filterBy }) => {
   );
 };
 
-export default DataSatkerTable;
+export default DataKategoriTable;

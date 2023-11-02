@@ -112,23 +112,24 @@ export const TotalAppCharts = () => {
       </Box>
     </Paper>
 
-    <Paper elevation={1} sx={{ p: 2, gridColumn: 1}}>
+    <Paper elevation={3} sx={{ p: 2, gridColumn: '1/4'}}>
         <Box>
         <AppByPemilikBarChart/>
         </Box>
     </Paper>
-    <Paper elevation={1} sx={{ p: 2, gridColumn: 2}}>
+    <Paper elevation={3} sx={{ p: 2, gridColumn: '1/2'}}>
         <Box>
         <AppByJenisPieChart/>
         </Box>
       </Paper>
-      <Paper elevation={1} sx={{ p: 2, gridColumn: 3}}>
+      <Paper elevation={3} sx={{ p: 2, gridColumn: '2/4'}}>
         <TotalBarChart/>
     </Paper>
 
-    <Paper elevation={1} sx={{ p: 2, gridColumn: '1/4'}}>
+    <Paper elevation={3} sx={{ p: 2, gridColumn: '1/4'}}>
         <TotalJenisChart/>
       </Paper>
+    
     </Box>
     </div>
   )

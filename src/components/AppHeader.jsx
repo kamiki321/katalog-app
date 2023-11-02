@@ -26,7 +26,10 @@ function AppHeader() {
     // const location = useLocation();
     const { collapseSidebar, toggleSidebar, collapsed, broken } = useProSidebar();
     const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState(""); // Define and set the currentPassword state variable
     const [newPassword, setNewPassword] = useState("");
+    const [passwordMismatchError, setPasswordMismatchError] = useState(null); // State for password mismatch error
+
 
 
     const handleOpenPasswordDialog = () => {
@@ -41,38 +44,41 @@ function AppHeader() {
 
     const handleChangePassword = async () => {
         try {
-            const token = sessionStorage.getItem('token');
-            console.log(user);
-            if(token){
-                const response = await Axios.patch(`http://localhost:3333/api/v1/users/${user.id}`, 
-                { newPassword: newPassword}, 
-                {
+            console.log('User Object:', user);
+          const token = sessionStorage.getItem('token');
+          if (token) {
+            const response = await Axios.patch(
+              `http://localhost:3333/api/v1/changePassword/${user.userId}`,
+              {
+                currentPassword: currentPassword, // Send the current password
+                newPassword: newPassword, // Send the new password
+              },
+              {
                 headers: {
-                  'Authorization': `Bearer ${token}`, // Include the user's token in the request headers
+                  'Authorization': `Bearer ${token}`,
                   'Content-Type': 'application/json',
                 },
-              });
-              if (response.status === 200) {
-                // Password successfully changed
-                // You may want to provide feedback to the user
-                alert('Password changed successfully!');
-              } else {
-                // Handle other response statuses or errors
-                alert('Failed to change the password');
               }
-          
-              // Close the dialog
-              handleClosePasswordDialog();
-
+            );
+      
+            if (response.status === 200) {
+              alert('Password changed successfully!');
+              // Optionally, you can sign the user out here or redirect them to the login page.
             } else {
-
+              alert('Failed to change the password');
             }
       
+            handleClosePasswordDialog();
+          } else {
+            // Handle the case where there's no token
+          }
         } catch (error) {
           console.error('Error changing password:', error);
           alert('An error occurred while changing the password');
         }
       };
+      
+    
       
 
     return <AppBar position="sticky" sx={styles.appBar}>
@@ -117,18 +123,28 @@ function AppHeader() {
             </IconButton>
 
         </Toolbar>
+  
         <Dialog open={openPasswordDialog} onClose={handleClosePasswordDialog}>
             <DialogTitle>Ubah Password</DialogTitle>
-                <DialogContent>
+            <DialogContent sx={{ padding: '16px' }}>
+                <TextField
+                    label="Password Saat Ini"
+                    type="password"
+                    fullWidth
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    sx={{ marginBottom: '16px' }}
+                />
                 <TextField
                     label="Password Baru"
                     type="password"
                     fullWidth
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
+                    sx={{ marginBottom: '16px' }}
                 />
-                </DialogContent>
-                <DialogActions>
+            </DialogContent>
+            <DialogActions>
                 <Button onClick={handleClosePasswordDialog} color="primary">
                     Batal
                 </Button>
@@ -136,7 +152,13 @@ function AppHeader() {
                     Simpan
                 </Button>
             </DialogActions>
+            {passwordMismatchError && (
+                <Typography variant="body2" color="error">
+                    {passwordMismatchError}
+                </Typography>
+            )}
         </Dialog>
+
     </AppBar>;
 }
 

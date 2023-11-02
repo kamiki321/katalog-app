@@ -15,21 +15,31 @@ const FilteringAplikasi = () => {
 
 
   useEffect(() => {
+    const token = sessionStorage.getItem('token');
     // Define the API URL you want to fetch data from
-    const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi'; // Replace with your API URL
-
+    // const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi'; // Replace with your API URL
+    const apiUrl = 'http://localhost:3333/api/v1/katalog/aplikasi'
     // Fetch data from the API
-    fetch(apiUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      // Set the fetched data in the state
-      setCardData(data);
-      setLoading(false);
+    if(token){
+      fetch(apiUrl, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
+      .then((response) => response.json())
+      .then((data) => {
+        // Set the fetched data in the state
+        setCardData(data);
         setLoading(false);
-      });
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        });
+    } else {
+      
+    }
   }, []);
   
   const paginateCards = () => {
@@ -159,7 +169,6 @@ const FilteringAplikasi = () => {
       <TextField
         label="Search"
         variant="outlined"
-        halfWidth
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         style={{ padding: '5px', margin: '10px' }}
@@ -183,8 +192,8 @@ const FilteringAplikasi = () => {
           </Typography>
         ) : (
           <Grid container spacing={2}>
-            {getPageData(currentPage).map((card, index) => (
-              <Grid item xs={12} sm={5} md={3} key={index}>
+            {getPageData(currentPage).map((card) => (
+              <Grid item xs={12} sm={5} md={3} key={card.id}>
                 <AplikasiCard imageUrl={card.imageUrl} title={card.title} pengguna_aplikasi={card.pengguna_aplikasi} content={card.content} buttonUrl={card.buttonUrl} />
               </Grid>
             ))}

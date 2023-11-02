@@ -86,7 +86,7 @@ export const LoginAdmin = () => {
     
             sessionStorage.setItem('token', data.data.token);
     
-            const userData = { loggedIn: true, role: data.data.role };
+            const userData = { loggedIn: true, role: data.data.role, userId: data.data.id };
             // console.log(data.data.token);
             sessionStorage.setItem('user', JSON.stringify(userData));
             // Set the token in the context
@@ -99,7 +99,6 @@ export const LoginAdmin = () => {
           const errorData = await response.json();
           console.log(response.status, errorData);
           alert("Terjadi kesalahan di server, Jika anda User silahkan login lewat halaman Login User");
-    
         }
       } catch (error) {
         console.error(error);
@@ -137,7 +136,7 @@ export const LoginAdmin = () => {
       <Paper elevation={3} style={{ padding: '50px' }}>
       
         <Typography variant="h4" align="center" gutterBottom>
-          <img src ="src/assets/logo_kemhan.png" width='80px' height='auto'  />
+          <img src ="src/assets/logoKemhan.png" width='80px' height='auto'  />
           <br></br>
           Sign In!
         </Typography>
@@ -185,7 +184,7 @@ export const LoginAdmin = () => {
               align="center" 
               gutterBottom >
                 Apakah anda Seorang User?
-                <Button  href="/user/login">
+                <Button  href="/login">
                   Kembali
                 </Button>
               </Typography>

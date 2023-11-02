@@ -11,7 +11,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-export default function AppByPemilikBarChart() {
+export default function KategoriBarChart() {
   const [data, setData] = useState([]);
   const [uniquePemilikAplikasiValues, setUniquePemilikAplikasiValues] = useState([]);
   const [valueCounts, setValueCounts] = useState([]);
@@ -21,7 +21,7 @@ export default function AppByPemilikBarChart() {
     const token = sessionStorage.getItem('token');
     // Fetch data from the API
     if (token) {
-      fetch("http://localhost:3333/api/v1/katalog/aplikasi", {
+      fetch("http://localhost:3333/api/v1/katalog/data", {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -32,13 +32,13 @@ export default function AppByPemilikBarChart() {
           console.log("Fetched data:", apiData);
   
           // Extract unique "pemilik_aplikasi" values
-          const uniqueValues = Array.from(new Set(apiData.map((item) => item.pemilik_aplikasi)));
+          const uniqueValues = Array.from(new Set(apiData.map((item) => item.kategori)));
           setUniquePemilikAplikasiValues(uniqueValues);
   
           // Count the occurrences of each unique value
           const counts = uniqueValues.map((value) => ({
             name: value,
-            count: apiData.filter((item) => item.pemilik_aplikasi === value).length
+            count: apiData.filter((item) => item.kategori === value).length
           }));
           setValueCounts(counts);
   
@@ -56,16 +56,16 @@ export default function AppByPemilikBarChart() {
 
   return (
     <div style={animationStyle}>
-      <Typography variant="h6"> Grafik Aplikasi berdasarkan Pemilik Aplikasi</Typography>
+      <Typography variant="h6"> Grafik Data berdasarkan kategori</Typography>
       <Divider sx={styles.divider}/>
-      <ResponsiveContainer width="100%" height={500}>
-        <BarChart width="100%" height={500} data={valueCounts} margin={{ top: 20, right: 30, left: 20, bottom: 140 }}>
+      <ResponsiveContainer width="100%" height={450}>
+        <BarChart width={700} height={500} data={valueCounts}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" angle={-50} textAnchor="end" />
+          <XAxis dataKey="name" />
           <YAxis dataKey="count" />
           <Tooltip />
-          <Legend  layout="horizontal" align="center" verticalAlign="top"/>
-          <Bar dataKey="count" fill="#82ca9d" />
+          <Legend />
+          <Bar dataKey="count" fill="#413ea0" />
         </BarChart>
       </ResponsiveContainer>
     </div>

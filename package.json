@@ -23,6 +23,7 @@
     "axios": "^1.5.1",
     "chart.js": "^4.2.1",
     "dom-to-image": "^2.6.0",
+    "dotenv": "^16.3.1",
     "highcharts": "^11.1.0",
     "highcharts-export-data": "^0.1.7",
     "highcharts-exporting": "^0.1.7",

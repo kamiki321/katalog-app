@@ -26,18 +26,26 @@ export const Input = () => {
         <Typography sx={styles.pageTitle} variant="h5">Input & Cetak Laporan</Typography>
         <Box sx={styles.tabHeader}>
             <Tabs value={value} onChange={handleChange}>
-                <Tab label="Input Data Baru" id='tab-0' />
-                <Tab label="Cetak Laporan" id='tab-1' />
+                <Tab label="Input Aplikasi Baru" id='tab-0' />
+                <Tab label="Input Data Baru" id='tab-1' />
+                <Tab label="Input Hardware Baru" id='tab-2' />
+                <Tab label="Input Software Baru" id='tab-3' />
+                <Tab label="Cetak Laporan" id='tab-4' />
             </Tabs>
         </Box>
         <TabPanel value={value} index={0} sx={{}}>
             <InputApp/>
-            <Divider sx={styles.divider}/>
-            <InputData/>
-            <Divider sx={styles.divider}/>
-            <InputTIK/>
         </TabPanel>
         <TabPanel value={value} index={1}>
+            <InputData/>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+            <InputTIK/>
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+            <CetakLaporan/>
+        </TabPanel>
+        <TabPanel value={value} index={4}>
             <CetakLaporan/>
         </TabPanel>
         </Box>

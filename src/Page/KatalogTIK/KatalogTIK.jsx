@@ -22,21 +22,17 @@ export const KatalogTIK = () => {
         <Typography sx={styles.pageTitle} variant="h5">Katalog TIK</Typography>
         <Box sx={styles.tabHeader}>
             <Tabs value={value} onChange={handleChange}>
-                <Tab label="Overview" id='tab-0' />
+                <Tab label="Hardware" id='tab-0' />
                 <Tab label="Software" id='tab-1' />
-                <Tab label="Hardware" id='tab-2' />
+
             </Tabs>
         </Box>
         <TabPanel value={value} index={0} sx={{}}>
-            Coming Soon...
+            <HardwareTable/>
         </TabPanel>
         <TabPanel value={value} index={1}>
         Coming Soon...
 
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-            <HardwareTable/>
-            {/* <Typography>Nothing yet!</Typography> */}
         </TabPanel>
         </Box>
         <footer>

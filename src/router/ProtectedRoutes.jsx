@@ -35,7 +35,7 @@ const ProtectedRoutes = () => {
         </ProSidebarProvider> 
     </>
   ) : ( 
-    <Navigate to='/user/login' replace state={{ from: location}} />
+    <Navigate to='/login' replace state={{ from: location}} />
   ) 
   
 

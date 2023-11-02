@@ -20,7 +20,7 @@ import {
   } from '@mui/x-data-grid';
   import axios from 'axios';
 import { Person, Person3, Refresh } from '@mui/icons-material';
-import { Typography } from '@mui/material';
+import { DialogContentText, Typography } from '@mui/material';
 
 function EditToolbar(props) {
   const { setRows, refreshData, setRowModesModel, openDialog   } = props;
@@ -73,6 +73,19 @@ export default function EditUser() {
     password: '',
     // roleId: ''
   });
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [deleteRowId, setDeleteRowId] = useState();
+
+  const openDeleteDialog = (id) => {
+    console.log('Opening dialog');
+    setDeleteRowId(id);
+    setIsDeleteDialogOpen(true);
+  };
+  
+  const closeDeleteDialog = () => {
+    setDeleteRowId(null);
+    setIsDeleteDialogOpen(false);
+  };
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -147,10 +160,18 @@ export default function EditUser() {
   //delete
   const handleDeleteClick = (id) => () => {
     // Assuming you have an API endpoint to delete a row
-    axios.delete(`http://localhost:3333/api/v1/users/${id}`)
+    const token = sessionStorage.getItem('token');
+    axios.delete(`http://localhost:3333/api/v1/users/${id}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
       .then(() => {
         // On success, update the local state to remove the deleted row
         setRows(rows.filter((row) => row.id !== id));
+        closeDeleteDialog();
       })
       .catch((error) => {
         console.error('Error deleting row:', error);
@@ -193,18 +214,25 @@ export default function EditUser() {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => {
-        const addedRecord = response.data;
-        setRows((oldRows) => [
-          ...oldRows,
-          addedRecord,
-        ]);
-        closeAddDialog();
-      })
-      .catch((error) => {
-        console.error('Error adding record:', error);
-      });
+    .then((response) => {
+      if (Array.isArray(response.data)) {
+        // If the response data is an array, update rows with unique IDs
+        const rowsWithIds = response.data.map((row, index) => ({ id: index + 1, ...row }));
+        setRows(rowsWithIds);
+        setIsLoading(false);
+        console.log('Add new admin access is success', response.data)
+      } else {
+        // If the response data is not an array, you may need to handle it differently
+        // console.error('Invalid response data format:', response.data);
+      }
+  
+      closeAddDialog();
+    })
+    .catch((error) => {
+      console.error('Error adding record:', error);
+    });
   };
+  
 
   const handleNewRecordChange = (event) => {
     const { name, value } = event.target;
@@ -219,10 +247,10 @@ export default function EditUser() {
   }
 
   const columns = [
-    { field: 'id', headerName: 'Id', width: 20, editable: false },
-    { field: 'username', headerName: 'Username', width: 200, editable: true },
+    { field: 'id', headerName: 'Id', width: 100, editable: false },
+    { field: 'username', headerName: 'Username', width: 200, editable: false },
     { field: 'email', headerName: 'Email',width: 280,align: 'left',headerAlign: 'left',editable: false,},
-    { field: 'password',headerName: 'Password',width: 300,editable: true,},
+    { field: 'password',headerName: 'Password',width: 300,editable: false,},
     { field: 'createdAt',headerName: 'Created Date',type: 'date',width: 250,editable: false,},
     { field: 'updatedAt',headerName: 'Updated Date',type: 'date',width: 250,editable: false,},
     { field: 'roleId',headerName: 'Role',width: 100,editable: true,},
@@ -266,7 +294,7 @@ export default function EditUser() {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={() => openDeleteDialog(id)}
             color="inherit"
           />,
         ];
@@ -297,43 +325,84 @@ return (
           }}
 
       />
+      <Dialog open={isAddDialogOpen} onClose={closeAddDialog}>
+        <DialogTitle display="flex" sx={{ p: 2 }}>
+          Add New Admin Access
+        </DialogTitle>
+        <DialogContent sx={{ p: 2 }}>
+          <TextField
+            label="Username"
+            name="username"
+            value={newRecordData.username}
+            onChange={handleNewRecordChange}
+            fullWidth
+            margin="normal"
+            required
+            error={newRecordData.username === ''} // Check if the field is empty
+            helperText={newRecordData.username === '' ? 'Username is required' : ''}
+          />
+          <TextField
+            label="Email"
+            name="email"
+            value={newRecordData.email}
+            onChange={handleNewRecordChange}
+            fullWidth
+            margin="normal"
+            required
+            error={newRecordData.email === ''} // Check if the field is empty
+            helperText={newRecordData.email === '' ? 'Email is required' : ''}
+          />
+          <TextField
+            label="Password"
+            name="password"
+            value={newRecordData.password}
+            onChange={handleNewRecordChange}
+            fullWidth
+            margin="normal"
+            required
+            error={newRecordData.password === ''} // Check if the field is empty
+            helperText={newRecordData.password === '' ? 'Password is required' : ''}
+          />
+        </DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={closeAddDialog} color="primary">
+            Close
+          </Button>
+          <Button
+            onClick={handleAddNewRecord}
+            color="primary"
+            disabled={
+              newRecordData.username === '' ||
+              newRecordData.email === '' ||
+              newRecordData.password === ''
+            } // Disable the button if any required field is empty
+          >
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog} sx={{ margin: '20px', padding: '20px' }}>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Are you sure you want to delete this row?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={closeDeleteDialog} color="primary">
+                Cancel
+              </Button>
+              <Button
+                onClick={handleDeleteClick(deleteRowId)}
+                color="primary"
+              >
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+      
 
-        <Dialog open={isAddDialogOpen} onClose={closeAddDialog}>
-          <DialogTitle
-          display="flex"
-          >Add New Admin Access</DialogTitle>
-          <DialogContent>
-            <TextField
-              label="Username"
-              name="username"
-              value={newRecordData.username}
-              onChange={handleNewRecordChange}
-              fullWidth
-            />
-            <TextField
-              label="Email"
-              name="email"
-              value={newRecordData.email}
-              onChange={handleNewRecordChange}
-              fullWidth
-            />
-            <TextField
-              label="Password"
-              name="password"
-              value={newRecordData.password}
-              onChange={handleNewRecordChange}
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeAddDialog} color="primary">
-              Close
-            </Button>
-            <Button onClick={handleAddNewRecord} color="primary">
-              Add
-            </Button>
-          </DialogActions>
-        </Dialog>
+
 
     </Box>
   );

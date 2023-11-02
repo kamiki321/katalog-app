@@ -97,7 +97,7 @@ export default function PieChartStatus() {
   return (
     <div>
       <Typography variant="h6">
-        Persentase Jumlah Data Berdasarkan Status 
+         Jumlah Data Berdasarkan Status 
         <IconButton
           aria-label="export"
           aria-controls="export-menu"
@@ -120,14 +120,12 @@ export default function PieChartStatus() {
         </Menu>
       </div>
             <Divider sx={styles.divider} />
-      <ResponsiveContainer width="100%" height={370} ref={chartRef}>
+      <ResponsiveContainer width="100%" height={360} ref={chartRef}>
         <PieChart>
           <Pie
             dataKey="value"
             isAnimationActive={true}
             data={data}
-            cx="50%"
-            cy="50%"
             outerRadius={120}
             label
           />

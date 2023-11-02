@@ -10,120 +10,87 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
+  BarChart
 } from "recharts";
 
-const data = [
-  {
-    name: "Bainstrahan",
-    uv: 5,
-    pv: 5
-  },
-  {
-    name: "Baranahan",
-    uv: 3,
-    pv: 3
-  },
-  {
-    name: "Biro Humas",
-    uv: 8,
-    pv: 8
-  },
-  {
-    name: "Biro Turdan",
-    uv: 1,
-    pv: 1
-  },
-  {
-    name: "Ditjen Kuathan ",
-    uv: 28,
-    pv: 28
-  },
-  {
-    name: "Ditjen Pothan",
-    uv: 5,
-    pv: 5
-  },
-  {
-    name: "Ditjen Strahan",
-    uv: 2,
-    pv: 2
-  },
-  {
-    name: "Inspektorat Jendral ",
-    uv: 4,
-    pv: 4
-  },
-  {
-    name: "Pusdatin",
-    uv: 2,
-    pv: 2
-  },
-  {
-    name: "Puslaik ",
-    uv: 1,
-    pv: 1
-  },
-  {
-    name: "Pusrehab",
-    uv: 2,
-    pv: 2
-  }
-];
 
 export default function TotalDataBarChart() {
-  // const [data, setData] = useState([])
-  // const [uniquePemilikAplikasiValues, setUniquePemilikAplikasiValues] = useState([]);
-  // const [valueCounts , setValueCounts] = useState([])
-  // const [fadeIn, setFadeIn] = useState(false);
+  const [data, setData] = useState([]);
+  const [fadeIn, setFadeIn] = useState(false);
 
-  // useEffect(() => {
-  //   // Fetch data from the API
-  //   fetch("https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/all")
-  //     .then((response) => response.json())
-  //     .then((apiData) => {
-  //       console.log("Fetched data:", apiData);
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    // Add a delay to trigger the fade-in animation after a short delay
+    const timeoutId = setTimeout(() => {
+      setFadeIn(true);
+    }, 500); // Adjust the delay as needed
 
-  //       // Extract unique "pemilik_aplikasi" values
-  //       const uniqueValues = Array.from(new Set(apiData.map((item) => item.satker)));
-  //       setUniquePemilikAplikasiValues(uniqueValues);
+    if (token){
+           // Fetch data from the API
+     fetch("http://localhost:3333/api/v1/katalog/data",{
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+     })
+     .then((response) => response.json())
+     .then((apiData) => {
+       console.log("Fetched data:", apiData);
 
-  //       // Count the occurrences of each unique value
-  //       const counts = uniqueValues.map((valueCounts) => ({
-  //         name: valueCounts,
-  //         count: apiData.filter((item) => item.satker === valueCounts).length
-  //       }));
-  //       setValueCounts(counts);
+       // Filter the data based on "pengguna_aplikasi"
+       const penggunaToFilter = [
+        "Bainstrahan Kemhan",
+        "Baranahan Kemhan",
+        "Biro Humas Setjen Kemhan",
+        "Biro Turdang Setjen Kemhan",
+        "Ditjen Kuathan Kemhan",
+        "Ditjen Pothan Kemhan",
+        "Ditjen Strahan Kemhan",
+        "lnspektorat Jenderal Kemhan",
+        "Pusdatin Kemhan",
+        "Puslaik Kemhan",
+        "Pusrehab Kemhan"
+       ]; // Replace with your desired values
+       const filteredData = apiData.filter((item) =>
+         penggunaToFilter.includes(item.satker)
+       );
+       console.log("Filtered data:", filteredData);
 
-  //       // Set the data
-  //       setData(apiData);
-  //       setFadeIn(true);
-  //     })
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, []);
+       // Extract "pengguna_aplikasi" and quantity from the data
+       const penggunaData = penggunaToFilter.map((satker) => ({
+         name: satker,
+         value: filteredData.filter((item) => item.satker === satker).length,
+         // fill: penggunaColors[pengguna_aplikasi], // Define colors as needed
+       }));
+
+       setData(penggunaData);
+     })
+     .catch((error) => console.error("Error fetching data:", error));
+
+   // Clear the timeout on unmount to prevent memory leaks
+   return () => clearTimeout(timeoutId);
+    } else {
+
+    }
+
+  }, []);
+  
+  const animationStyle = fadeIn ? { opacity: 1, transition: 'opacity 0.5s' } : { opacity: 0 };
 
   return (
-    <div style={{ width: "100%", height: 400 }}>
+    <div style={{animationStyle}}>
     <Typography variant="h6">Grafik Jumlah Total Data Per Satker</Typography>
     <Divider sx={styles.divider}/>
-      <ResponsiveContainer>
-        <ComposedChart
-          data={data}
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 60,
-            left: 20
-          }}
-        >
-          <CartesianGrid stroke="#f5f5f5" />
-          <XAxis dataKey="name" scale="band" />
-          <YAxis />
+      <ResponsiveContainer width="100%" height={450}>
+        <BarChart data={data} width={700} height={500} margin={{ top: 20, right: 30, left: 20, bottom: 120 }} >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" angle={-50} textAnchor="end" />
+          <YAxis dataKey="value" />
           <Tooltip />
-          <Legend />
-          <Bar dataKey="pv" barSize={20} fill="#413ea0" />
-          <Line type="monotone" dataKey="uv" stroke="#ff7300" />
-        </ComposedChart>
+          <Legend layout="horizontal" align="center" verticalAlign="top"/>
+          <Bar dataKey="value" barSize={40} fill="#413ea0" />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );

@@ -17,7 +17,7 @@ import { Divider, Typography } from "@mui/material";
 import domtoimage from "dom-to-image";
 import htmlToPdf from "html-pdf";
 
-export default function PieChartTotal() {
+export default function JadwalPieChart() {
   const [anchorEl, setAnchorEl] = useState(null);
   const chartRef = useRef(null);
   const [data, setData] = useState([]); // State to hold the fetched data
@@ -74,20 +74,19 @@ export default function PieChartTotal() {
   };
 
   useEffect(() => {
-    const satkerColors = {
-        "Bainstrahan Kemhan": "#8884d8",
-        "Baranahan Kemhan": "#82ca9d",
-        "Biro Humas Setjen Kemhan": "#ffc658",
-        "Biro Turdang Setjen Kemhan": "#ff7300",
-        "Ditjen Kuathan Kemhan": "#9467bd",
-        "Ditjen Pothan Kemhan": "#8c564b",
-        "Ditjen Strahan Kemhan": "#e377c2",
-        "lnspektorat Jenderal  Kemhan": "#7f7f7f",
-        "Pusdatin Kemhan":"#bcbd22",
-        "Puslaik Kemhan" : "#17becf",
-        "Pusrehab Kemhan": "#aec7e8"
+    const jadwalColors = {
+        "no-info": "#8884d8",
+        "bila ada perubahan": "#82ca9d",
+        "Perbulan": "#ffc658",
+        "Per Semester": "#ff7300",
+        "Pertahun": "#9467bd",
+        "Real Time": "#8c564b",
+        "Semester dan Tahunan": "#e377c2",
+        "Tahunan atau bila ada perubahan": "#7f7f7f",
+        "Tahunan atau bila ada perubahan alokasi":"#bcbd22",
+        "Triwulanan, Semesteran, Tahunan" : "#17becf"
       };
-    const satkerToFilter = Object.keys(satkerColors);
+    const jadwalToFilter = Object.keys(jadwalColors);
     const token = sessionStorage.getItem('token');
     // Fetch data from the API and filter it to extract "satker" and quantity
     if (token) {
@@ -102,18 +101,18 @@ export default function PieChartTotal() {
           console.log("Fetched data:", apiData); 
   
           const filteredData = apiData.filter((item) =>
-            satkerToFilter.includes(item.satker)
+            jadwalToFilter.includes(item.jadwal_pemutakhiran)
           );
           console.log("Filtered data:", filteredData);
   
           // Extract "satker" and quantity from the data
-          const satkerData = satkerToFilter.map((satker) => ({
-            name: satker,
-            value: filteredData.filter((item) => item.satker === satker).length,
-            fill: satkerColors[satker],
+          const jadwalData = jadwalToFilter.map((jadwal_pemutakhiran) => ({
+            name: jadwal_pemutakhiran,
+            value: filteredData.filter((item) => item.jadwal_pemutakhiran === jadwal_pemutakhiran).length,
+            fill: jadwalColors[jadwal_pemutakhiran],
           }));
   
-          setData(satkerData);
+          setData(jadwalData);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -128,7 +127,7 @@ export default function PieChartTotal() {
   return (
     <div>
       <Typography variant="h6">
-        Jumlah Data Berdasarkan Satker
+        Jumlah Data Berdasarkan Jadwal Pemutakhiran
         <IconButton
           aria-label="export"
           aria-controls="export-menu"
