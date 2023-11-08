@@ -88,7 +88,6 @@ export default function TotalDataBarChart() {
           <XAxis dataKey="name" angle={-50} textAnchor="end" />
           <YAxis dataKey="value" />
           <Tooltip />
-          <Legend layout="horizontal" align="center" verticalAlign="top"/>
           <Bar dataKey="value" barSize={40} fill="#413ea0" />
         </BarChart>
       </ResponsiveContainer>

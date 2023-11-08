@@ -23,16 +23,19 @@ import { LoginAdmin } from './Page/Login/LoginAdmin';
 export const UserContext = createContext();
 
 function App() {
-  const [user, setUser] =  useState({ loggedIn: false, role: '' });
+  const [user, setUser] =  useState({ loggedIn: false, role : 'user'});
+  const [isAdmin, setIsAdmin] = useState({ role : 'admin'})
 
   useEffect(() => {
     // Cek apakah ada data status login dalam sessionStorage
     const token = sessionStorage.getItem('token');
     const storedUser = sessionStorage.getItem('user');
-
-    if (token && storedUser) {
+    const role = sessionStorage.getItem('role')
+    if (token && storedUser && role) {
       const userData = JSON.parse(storedUser);
+      const userRole = role
       setUser({ loggedIn: true, userData });
+      setIsAdmin({ userRole })
     }
   }, []);
 
@@ -52,10 +55,10 @@ function App() {
                     <Route path='/faq' element={<FAQ />} />
                     <Route path='/katalog/data' element={<KatalogData />} />
                     <Route path='/katalog/tik' element={<KatalogTIK />} />
-                    {user.role === 'admin' && (
+                    <Route path="/edit" element={<EditUserAdmin />} />
+                    <Route path="/input" element={<Input />} />
+                    {isAdmin.role === 'admin' && (
                       <>
-                        <Route path="/edit" element={<EditUserAdmin />} />
-                        <Route path="/input" element={<Input />} />
                       </>
                     )}
                     <Route path='/*' element={<ErrorPage />} />

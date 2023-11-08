@@ -18,7 +18,7 @@ import { useContext,useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { UserContext } from "../App";
 import Axios from 'axios';
-import { PasswordOutlined } from "@mui/icons-material";
+import { KeyRounded, PasswordOutlined } from "@mui/icons-material";
 
 function AppHeader() {
     const { user, setUser } = useContext(UserContext);
@@ -92,10 +92,10 @@ function AppHeader() {
                 src="/src/assets/Logo.png" />
             <Box
                 sx={{ flexGrow: 1 }} />
-            <IconButton onClick={handleOpenPasswordDialog} color="secondary">
-                <PasswordOutlined>
+            <IconButton onClick={handleOpenPasswordDialog} color="secondary" title="Ubah Password">
+                <KeyRounded>
                     Ubah Password
-                </PasswordOutlined>
+                </KeyRounded>
             </IconButton>
             <IconButton
             onClick={async () => {
@@ -103,6 +103,8 @@ function AppHeader() {
                 try {
                 // Clear the token from Axios headers
                 sessionStorage.removeItem('token');
+                sessionStorage.removeItem('role');
+                sessionStorage.removeItem('email');
                 delete Axios.defaults.headers.common['Authorization'];
 
                 // Update the user state to indicate they are logged out

@@ -111,7 +111,6 @@ export const InputTIK = () => {
           type="submit"
           variant="contained"
           color="primary"
-          fullWidth
           style={{ marginTop: '16px' }}
         >
           Kirim Data

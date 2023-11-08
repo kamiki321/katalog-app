@@ -16,6 +16,9 @@ export const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('')
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
+
 
   
   const handleEmailChange = (e) => {
@@ -85,11 +88,13 @@ export const LoginPage = () => {
             // console.log('token', data.data.token);
     
             sessionStorage.setItem('token', data.data.token);
-    
-            const userData = { loggedIn: true, role: data.data.role };
+            sessionStorage.setItem('role', data.data.role);
+            sessionStorage.setItem('email', data.data.email);
+            const userData = { loggedIn: true };
             // console.log(data.data.token);
             sessionStorage.setItem('user', JSON.stringify(userData));
             // Set the token in the context
+
             setUser(userData);
     
             // // Store the token in localStorage if needed

@@ -64,7 +64,6 @@ export default function KategoriBarChart() {
           <XAxis dataKey="name" />
           <YAxis dataKey="count" />
           <Tooltip />
-          <Legend />
           <Bar dataKey="count" fill="#413ea0" />
         </BarChart>
       </ResponsiveContainer>

@@ -100,7 +100,6 @@ export default function TotalBarChart() {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" angle={-50} textAnchor="end"/>
         <YAxis dataKey="value" />
-        <Legend layout="horizontal" align="center" verticalAlign="top"/>
         <Tooltip />
         <Bar  dataKey="value"  fill="#3A7240" />
       </BarChart>

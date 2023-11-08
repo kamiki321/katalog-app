@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import TabPanel from "../../components/TabPanel";
 import HardwareTable from "../../containers/tikPage/HardwareTable";
+import SoftwareTable from "../../containers/tikPage/SoftwareTable";
 
 export const KatalogTIK = () => {
     const [value, setValue] = useState(0);
@@ -31,7 +32,7 @@ export const KatalogTIK = () => {
             <HardwareTable/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-        Coming Soon...
+            <SoftwareTable/>
 
         </TabPanel>
         </Box>

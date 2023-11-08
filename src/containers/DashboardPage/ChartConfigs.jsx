@@ -29,7 +29,7 @@ export const mainChartOptions = {
   maintainAspectRatio: false,
   plugins: {
       legend: {
-          display: true
+          display: false
       },
       title: {
           display: true

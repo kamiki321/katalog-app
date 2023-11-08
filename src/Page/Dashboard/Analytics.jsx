@@ -74,7 +74,7 @@ function Analytics() {
             <Box sx={styles.overviewContainer}>
                 <Box sx={styles.statsContainer}>
                     <Typography variant="h5">
-                        Analisis Jumlah Data dan Aplikasi
+                        Grafik Analisis Data, Aplikasi dan Hardware
                     </Typography>
                     
                     <OverviewCharts />

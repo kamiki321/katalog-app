@@ -26,16 +26,7 @@ function EditToolbar(props) {
   const { setRows, refreshData, setRowModesModel, openDialog   } = props;
 
 
-  // const handleClick = () => {
-    //   setRows((oldRows) => [
-    //     ...oldRows,
-    //     { id, username: '', email: '', isNew: true },
-    //   ]);
-    //   setRowModesModel((oldModel) => ({
-    //     ...oldModel,
-    //     [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    //   }))
-    // };
+
   
 
   
@@ -246,6 +237,19 @@ export default function EditUser() {
     return <div>Loading...</div>;
   }
 
+  function CustomToolbar(props) {
+    return (
+      <GridToolbarContainer {...props}>
+        {/* <GridFilterMenuItem/>
+        <GridFilterForm/> */}
+        {/* <GridColumnMenuContainer/> */}
+        <GridToolbar />
+        {/* <CustomExportButton /> */}
+        <GridToolbarQuickFilter />
+      </GridToolbarContainer>
+    );
+  }
+  
   const columns = [
     { field: 'id', headerName: 'Id', width: 100, editable: false },
     { field: 'username', headerName: 'Username', width: 200, editable: false },
@@ -284,13 +288,13 @@ export default function EditUser() {
         }
 
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
+          // <GridActionsCellItem
+          //   icon={<EditIcon />}
+          //   label="Edit"
+          //   className="textPrimary"
+          //   onClick={handleEditClick(id)}
+          //   color="inherit"
+          // />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"

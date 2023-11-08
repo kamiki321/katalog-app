@@ -85,8 +85,9 @@ export const LoginAdmin = () => {
             // console.log('token', data.data.token);
     
             sessionStorage.setItem('token', data.data.token);
-    
-            const userData = { loggedIn: true, role: data.data.role, userId: data.data.id };
+            sessionStorage.setItem('role', data.data.role);
+            sessionStorage.setItem('email', data.data.email);
+            const userData = { loggedIn: true};
             // console.log(data.data.token);
             sessionStorage.setItem('user', JSON.stringify(userData));
             // Set the token in the context

@@ -1,16 +1,15 @@
-import { DataGrid, GridActionsCellItem, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridToolbar, GridToolbarExport } from '@mui/x-data-grid';
 import { Helmet } from 'react-helmet-async';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
-const HardwareTable = () => {
+const SoftwareTable = () => {
   const [tableData, setTableData] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteRowId, setDeleteRowId] = useState();
-  const userRole = sessionStorage.getItem('role');
 
   const openDeleteDialog = (id) => {
     console.log('Opening dialog');
@@ -85,60 +84,20 @@ const columns = [
     },
   },
 ]
-
-const columnsWithoutActions = [
-  { field: 'id', headerName: 'No.', width: 100 },
-  { field: 'no_serial', headerName: 'S/N', width: 150 },
-  { field: 'jenis', headerName: 'Jenis', width: 150 },
-  { field: 'type', headerName: 'Type', width: 150 },
-];
-
-const columnsWithActions = [
-  ...columnsWithoutActions,
-  {
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Actions',
-    width: 200,
-    cellClassName: 'actions',
-    getActions: ({ id }) => [
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        onClick={() => openDeleteDialog(id)}
-        color="inherit"
-      />,
-    ],
-  },
-];
- 
-function CustomToolbar(props) {
-  return (
-    <GridToolbarContainer {...props}>
-      {/* <GridFilterMenuItem/>
-      <GridFilterForm/> */}
-      {/* <GridColumnMenuContainer/> */}
-      <GridToolbar />
-      {/* <CustomExportButton /> */}
-      <GridToolbarQuickFilter />
-    </GridToolbarContainer>
-  );
-}
-
   return (
     <>
       <Helmet>
             <title>Katalog Hardware</title>
       </Helmet>
       <div style={{height:800, width:"100%"}}>
-          <h3>Cari Data Nominatif Hardware</h3>
+          <h3>Cari Hardware</h3>
           <DataGrid 
             rows={tableData}
-            columns={userRole === 'admin' ? columnsWithActions : columnsWithoutActions}
+            columns={columns}
             pageSize={pageSize}
             rowsPerPageOptions={[5,10,20,50,100]}
             onPageSizeChange={(newPageSize)=>setPageSize(newPageSize)}
-            components={{Toolbar: CustomToolbar}}
+            components={{Toolbar: GridToolbar}}
           />
       </div>
         <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog} sx={{ margin: '20px', padding: '20px' }}>
@@ -164,7 +123,7 @@ function CustomToolbar(props) {
   )
 }
 
-export default HardwareTable;
+export default SoftwareTable;
 
 
 

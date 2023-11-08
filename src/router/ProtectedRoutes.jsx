@@ -13,7 +13,7 @@ const useAuth = () => {
 
 };
 
-const ProtectedRoutes = () => {
+const ProtectedRoutes = ({username, role}) => {
     const location = useLocation();
     const isAuth = useAuth();
     const isRole = 'admin'

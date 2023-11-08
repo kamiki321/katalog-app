@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Container, Typography, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Box, FormControl, InputLabel, CircularProgress } from '@mui/material';
+import { Button, Container, Typography, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Box, FormControl, InputLabel, CircularProgress, MenuItem, Select } from '@mui/material';
+import { useEffect } from 'react';
 
 
 export const InputApp = () => {
@@ -15,8 +16,38 @@ export const InputApp = () => {
     pengguna_aplikasi: '',
     buttonUrl: '',
   });
-
+  const [penggunaAplikasiOptions, setPenggunaAplikasiOptions] = useState([]);
+  const [jenisAplikasiOptions, setJenisAplikasiOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if(token){
+      fetch('http://localhost:3333/api/v1/katalog/aplikasi', {
+        headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    })
+        .then((response) => response.json())
+        .then((data) => {
+          // Extract the values from the "pengguna_aplikasi" column
+          const uniqueJenisAplikasi = [...new Set(data.map((item) => item.jenis_aplikasi))];
+          const uniquePenggunaAplikasi = [...new Set(data.map((item) => item.pengguna_aplikasi))];
+          // Sort the unique values alphabetically
+          uniqueJenisAplikasi.sort((a, b) => a.localeCompare(b));
+          setJenisAplikasiOptions(uniqueJenisAplikasi);
+          uniquePenggunaAplikasi.sort((a, b) => a.localeCompare(b));
+          setPenggunaAplikasiOptions(uniquePenggunaAplikasi);
+        })
+        .catch((error) => {
+          console.error('Error fetching pengguna aplikasi:', error);
+        });
+    } else {
+
+    }
+  }, []);
+
 
   const openErrorDialog = (errorMessage) => {
     setError(errorMessage);
@@ -34,7 +65,7 @@ export const InputApp = () => {
     setOpenDialog(false);
 
     setFormData({
-      imageUrl: '',
+      imageUrl: 'null',
       title: '',
       content: '',
       jenis_aplikasi: '',
@@ -137,14 +168,23 @@ export const InputApp = () => {
           />
         </Box>
         <Box marginBottom={2}>
-          <TextField
-            name="jenis_aplikasi"
-            label="Jenis Aplikasi"
-            value={formData.jenis_aplikasi}
-            onChange={handleInputChange}
-            fullWidth
-          />
+          <FormControl fullWidth>
+            <InputLabel id="jenis-aplikasi-label">Jenis Aplikasi</InputLabel>
+              <Select
+                name="jenis_aplikasi"
+                label="jenis-aplikasi-label"
+                value={formData.jenis_aplikasi}
+                onChange={handleInputChange}
+              >
+                {jenisAplikasiOptions.map((jenisAplikasi, index) => (
+                  <MenuItem key={index} value={jenisAplikasi}>
+                    {jenisAplikasi}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
         </Box>
+
         <Box marginBottom={2}>
           <TextField
             name="pemilik_aplikasi"
@@ -155,13 +195,21 @@ export const InputApp = () => {
           />
         </Box>
         <Box marginBottom={2}>
-          <TextField
-            name="pengguna_aplikasi"
-            label="Pengguna Aplikasi"
-            value={formData.pengguna_aplikasi}
-            onChange={handleInputChange}
-            fullWidth
-          />
+          <FormControl fullWidth>
+            <InputLabel id="pengguna-aplikasi-label">Pengguna Aplikasi</InputLabel>
+            <Select
+              name="pengguna_aplikasi"
+              label="Pengguna Aplikasi"
+              value={formData.pengguna_aplikasi}
+              onChange={handleInputChange}
+            >
+              {penggunaAplikasiOptions.map((penggunaAplikasi, index) => (
+                <MenuItem key={index} value={penggunaAplikasi}>
+                  {penggunaAplikasi}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Box>
         <Box marginBottom={2}>
           <TextField

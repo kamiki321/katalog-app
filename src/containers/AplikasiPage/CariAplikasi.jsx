@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { DataGrid,GridActionsCellItem, GridToolbar, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGrid,GridActionsCellItem, GridToolbar, GridToolbarContainer, GridToolbarExport, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 const CariAplikasi = () => {
   const [tableData, setTableData] = useState([]);
   const [pageSize, setPageSize] = useState(10);
-
+  const userRole = sessionStorage.getItem('role');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteRowId, setDeleteRowId] = useState();
 
@@ -88,17 +88,59 @@ const columns = [
     }
   }
 ]
+
+const columnsWithoutActions = [
+  {field: 'id', headerName: 'Id',  width: 100 },
+  {field: 'title', headerName: 'Nama Aplikasi', width: 300 },
+  {field: 'content', headerName: 'Uraian Aplikasi', width: 650},
+  {field: 'jenis_aplikasi', headerName: 'Jenis Aplikasi',width: 150 },
+  {field: 'pemilik_aplikasi', headerName: 'Pemilik Aplikasi', width: 200 },
+  {field: 'pengguna_aplikasi', headerName: 'Pengguna Aplikasi', width: 200 },
+];
+
+const columnsWithActions = [
+  ...columnsWithoutActions,
+  {
+    field: 'actions',
+    type: 'actions',
+    headerName: 'Actions',
+    width: 200,
+    cellClassName: 'actions',
+    getActions: ({ id }) => [
+      <GridActionsCellItem
+        icon={<DeleteIcon />}
+        label="Delete"
+        onClick={() => openDeleteDialog(id)}
+        color="inherit"
+      />,
+    ],
+  },
+];
+
+function CustomToolbar(props) {
+  return (
+    <GridToolbarContainer {...props}>
+      {/* <GridFilterMenuItem/>
+      <GridFilterForm/> */}
+      {/* <GridColumnMenuContainer/> */}
+      <GridToolbar />
+      {/* <CustomExportButton /> */}
+      <GridToolbarQuickFilter />
+    </GridToolbarContainer>
+  );
+}
+
   return (
     <>
       <div style={{height:665, width:"100%"}}>
-          <h3>Cari Katalog Aplikasi</h3>
+          <h3>Cari Data Nominatif Aplikasi</h3>
           <DataGrid 
             rows={tableData}
-            columns={columns}
+            columns={userRole === 'admin' ? columnsWithActions : columnsWithoutActions}
             pageSize={pageSize}
             rowsPerPageOptions={[5,10,20,50,100]}
             onPageSizeChange={(newPageSize)=>setPageSize(newPageSize)}
-            components={{Toolbar: GridToolbar}}
+            components={{Toolbar: CustomToolbar}}
           />
       </div>
         <Dialog open={isDeleteDialogOpen} onClose={closeDeleteDialog} sx={{ margin: '20px', padding: '20px' }}>

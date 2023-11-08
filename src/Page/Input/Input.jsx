@@ -30,7 +30,7 @@ export const Input = () => {
                 <Tab label="Input Data Baru" id='tab-1' />
                 <Tab label="Input Hardware Baru" id='tab-2' />
                 <Tab label="Input Software Baru" id='tab-3' />
-                <Tab label="Cetak Laporan" id='tab-4' />
+
             </Tabs>
         </Box>
         <TabPanel value={value} index={0} sx={{}}>
@@ -43,10 +43,7 @@ export const Input = () => {
             <InputTIK/>
         </TabPanel>
         <TabPanel value={value} index={3}>
-            <CetakLaporan/>
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-            <CetakLaporan/>
+            <InputTIK/>
         </TabPanel>
         </Box>
         <footer>

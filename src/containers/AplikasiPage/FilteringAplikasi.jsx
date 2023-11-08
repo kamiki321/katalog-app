@@ -17,7 +17,6 @@ const FilteringAplikasi = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     // Define the API URL you want to fetch data from
-    // const apiUrl = 'https://api.mockfly.dev/mocks/4150728a-8878-4427-8725-3a92fa972967/aplikasi'; // Replace with your API URL
     const apiUrl = 'http://localhost:3333/api/v1/katalog/aplikasi'
     // Fetch data from the API
     if(token){

@@ -4,9 +4,13 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import { Link, useNavigate } from "react-router-dom";
 import { AppRegistrationOutlined, CategoryOutlined, ComputerOutlined, DatasetOutlined, HardwareOutlined, Input, InputOutlined, Person, PhoneAndroidTwoTone, QuestionMarkOutlined, SearchOutlined } from "@mui/icons-material";
 
-function SideNav({ isRole }) {
+
+
+function SideNav() {
     const { collapsed } = useProSidebar();
     const theme = useTheme();
+    const role = sessionStorage.getItem('role');
+    const email = sessionStorage.getItem('email');
 
     return <Sidebar
         style={{ height: "100%", top: 'auto' }}
@@ -15,9 +19,17 @@ function SideNav({ isRole }) {
 
     >
         <Box sx={styles.avatarContainer}>
-            <Avatar sx={styles.avatar} alt="logo" src="src/assets/logoKemhan.png" />
-            {!collapsed ? <Typography color="secondary" variant="overline" sx={styles.yourChannel}>Katalog Data & Aplikasi</Typography> : null}
-
+            <Avatar sx={styles.avatar} alt="logo" src="src/assets/userLogo.png" />
+            {!collapsed && (
+                <>
+                    <Typography color="secondary" variant="overline" sx={styles.yourChannel}>
+                        Hi, {email}! 
+                    </Typography>
+                    <Typography color="secondary" variant="overline" sx={styles.yourChannel}>
+                        Role: {role}
+                    </Typography>
+                </>
+            )}
         </Box>
 
         <Menu
@@ -32,7 +44,7 @@ function SideNav({ isRole }) {
             <MenuItem active={window.location.pathname === "/katalog/aplikasi"} component={<Link to="/katalog/aplikasi" />} icon={<PhoneAndroidTwoTone color="secondary"/>}> <Typography color="secondary" variant="body2">Katalog Aplikasi </Typography></MenuItem>
             <MenuItem active={window.location.pathname === "/katalog/data"} component={<Link to="/katalog/data" />} icon={<DatasetOutlined color="secondary" />}> <Typography color="secondary" variant="body2">Katalog Data</Typography></MenuItem>
             <MenuItem active={window.location.pathname === "/katalog/tik"} component={<Link to="/katalog/tik" />} icon={<ComputerOutlined color="secondary" />}> <Typography color="secondary" variant="body2">Katalog TIK</Typography></MenuItem>
-            {isRole === 'admin' && (
+            {role === 'admin' && (
                 <>
                     <MenuItem active={window.location.pathname === "/edit"} component={<Link to="/edit"/>} icon={<Person color="secondary" />}>
                     <Typography color="secondary" variant="body2">Edit User</Typography>

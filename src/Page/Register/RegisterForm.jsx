@@ -52,7 +52,7 @@ const validateForm = () => {
 
   // Validate password length
   if (password.length < 8) {
-    setPasswordError('Password harus paling tidak sepanjang 8 character ');
+    setPasswordError('Password harus paling tidak sepanjang 8 character dan Memiliki satu huruf Uppercase serta mengandung satu special character');
     isValid = false;
   } else {
     setPasswordError('');
