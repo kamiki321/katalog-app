@@ -61,7 +61,6 @@ function TopFiveData() {
                 variant="body1"
                 onClick={() => {
                     navigate('/katalog/data');
-                    console.info("I'm a button.");
                 }}
                 >
                 See more...

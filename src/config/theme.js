@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { brown, green, grey, indigo } from '@mui/material/colors';
+import { blueGrey, brown, cyan, green, grey, indigo, lightBlue } from '@mui/material/colors';
 
 let theme = createTheme({
     palette: {
@@ -20,6 +20,11 @@ let theme = createTheme({
         },
         green :{
             main: green[800]
+        },
+        blue : {
+            normal: blueGrey['A200'],
+            main: cyan[800],
+            dark: cyan[900]
         }
     }
 });

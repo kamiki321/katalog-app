@@ -8,13 +8,15 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
-import { Divider } from '@mui/material';
+import { Divider, Link } from '@mui/material';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const ListData = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
 export default function TopDataList() {
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [dense, setDense] = useState(false);
 
@@ -62,6 +64,16 @@ export default function TopDataList() {
           ))}
         </List>
       </ListData>
+      <Divider sx={styles.divider} />
+                <Link
+                component="button"
+                variant="body1"
+                onClick={() => {
+                    navigate('/katalog/data');
+                }}
+                >
+                See more...
+                </Link>
     </Box>
   );
 }

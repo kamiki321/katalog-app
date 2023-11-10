@@ -95,7 +95,6 @@ export default function AppByJenisPieChart() {
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={120}
-          fill="#8884d8"
           dataKey="value"
         >
           {data.map((entry, index) => (

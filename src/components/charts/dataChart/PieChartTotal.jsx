@@ -82,7 +82,7 @@ export default function PieChartTotal() {
         "Ditjen Kuathan Kemhan": "#9467bd",
         "Ditjen Pothan Kemhan": "#8c564b",
         "Ditjen Strahan Kemhan": "#e377c2",
-        "lnspektorat Jenderal  Kemhan": "#7f7f7f",
+        "lnspektorat Jenderal Kemhan": "#7f7f7f",
         "Pusdatin Kemhan":"#bcbd22",
         "Puslaik Kemhan" : "#17becf",
         "Pusrehab Kemhan": "#aec7e8"

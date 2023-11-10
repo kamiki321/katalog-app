@@ -15,7 +15,7 @@ function SideNav() {
     return <Sidebar
         style={{ height: "100%", top: 'auto' }}
         breakPoint="md"
-        backgroundColor={theme.palette.neutral.normal}
+        backgroundColor={theme.palette.blue.dark}
 
     >
         <Box sx={styles.avatarContainer}>

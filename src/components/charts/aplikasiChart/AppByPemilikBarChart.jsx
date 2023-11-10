@@ -64,7 +64,7 @@ export default function AppByPemilikBarChart() {
           <XAxis dataKey="name" angle={-50} textAnchor="end" />
           <YAxis dataKey="count" />
           <Tooltip />
-          <Bar dataKey="count" fill="#82ca9d" />
+          <Bar dataKey="count" fill="#181B64" />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -101,7 +101,7 @@ export default function TotalBarChart() {
         <XAxis dataKey="name" angle={-50} textAnchor="end"/>
         <YAxis dataKey="value" />
         <Tooltip />
-        <Bar  dataKey="value"  fill="#3A7240" />
+        <Bar  dataKey="value"  fill="#181B64" />
       </BarChart>
     </ResponsiveContainer>
     

@@ -89,8 +89,8 @@ export default function TotalJenisChart() {
         <YAxis />
         <Tooltip />
         <Legend layout="horizontal" align="center" verticalAlign="top"/>
-        <Bar dataKey="Total" fill="#3A7240" />
-        <Bar dataKey="Khusus" stackId="a" fill="#38B444" />
+        <Bar dataKey="Total" fill="#181B64" />
+        <Bar dataKey="Khusus" stackId="a" fill="#FFA800" />
         <Bar dataKey="Umum" stackId="a" fill="#82ca9d" />
         </BarChart>
         </ResponsiveContainer>

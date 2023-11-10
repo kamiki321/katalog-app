@@ -50,9 +50,11 @@ const FilteringAplikasi = () => {
   
   // Get unique pemilik aplikasi and jenis aplikasi values from the fetched data
   const uniquePenggunaAplikasi = [...new Set(cardData.map((card) => card.pengguna_aplikasi))];
+  uniquePenggunaAplikasi.sort((a, b) => a.localeCompare(b));
   const uniquePemilikAplikasi = [...new Set(cardData.map((card) => card.pemilik_aplikasi))];
+  uniquePemilikAplikasi.sort((a, b) => a.localeCompare(b));
   const uniqueJenisAplikasi = [...new Set(cardData.map((card) => card.jenis_aplikasi))];
-
+  uniqueJenisAplikasi.sort((a, b) => a.localeCompare(b));
   // Filtering function
   const filteredCards = () => {
     return cardData.filter((card) => {
